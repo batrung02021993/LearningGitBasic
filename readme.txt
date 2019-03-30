@@ -13,3 +13,5 @@
 - git mv [file_name] [file_name_new]
 - git commit -m "comment"
 - git push origin master
+4. Revert file has commit:
+- git checkout 7f3e4c1 readme.txt
