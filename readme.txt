@@ -15,3 +15,9 @@
 - git push origin master
 4. Revert file has commit:
 - git checkout 7f3e4c1 readme.txt
+5. Log commit:
+- git log --author=account@gmail.com
+- git config --global alias.lg "log --color --graph 
+--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) 
+%C(bold blue)<%an>%Creset' --abbrev-commit"
+- git lg
