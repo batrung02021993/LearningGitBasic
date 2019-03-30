@@ -9,3 +9,7 @@
 - git rm -r [file_name]
 - git commit -m "comment"
 - git push origin master
+3. Rename file:
+- git mv [file_name] [file_name_new]
+- git commit -m "comment"
+- git push origin master
