@@ -21,3 +21,5 @@
 --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) 
 %C(bold blue)<%an>%Creset' --abbrev-commit"
 - git lg
+6. Revert version old in local:
+- git reset --hard [id_revert]
