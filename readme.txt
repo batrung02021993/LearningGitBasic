@@ -23,3 +23,9 @@
 - git lg
 6. Revert version old in local:
 - git reset --hard [id_revert]
+7. Remark Tag show log:
+- git add [file_name]
+- git commit -a -m "comment"
+- git tag [ver...]
+- git tag
+- git show [ver...]
