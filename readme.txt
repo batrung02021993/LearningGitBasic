@@ -29,3 +29,10 @@
 - git tag [ver...]
 - git tag
 - git show [ver...]
+8. Create new branch from branch:
+- git checkout -b [new_branch] [branch]
+- git commit -am "comment"
+- git checkout [branch]
+- git merge --no-ff [new_branch]
+- git push origin [branch]
+- git push origin [new_branch]
