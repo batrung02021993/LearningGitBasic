@@ -1,0 +1,1176 @@
+﻿<Window x:Class="VinaInvoice.BC26Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VinaInvoice"
+        mc:Ignorable="d"
+        DataContext="{StaticResource BC26VM}"
+
+        xmlns:converter="clr-namespace:VinaInvoice.Common.Converter"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"      
+        xmlns:uc="clr-namespace:VinaInvoice.UserControlARI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+
+        Name="bc26Window"
+        Title="Báo cáo tình hình sử dụng hóa đơn" 
+        Height="600" Width="1200">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        <converter:InvoiceNumberConverter x:Key="InvoiceNumberConverter"/>
+
+
+        <!--HeaderLv1-->
+        <Style x:Key="HeaderLv1" TargetType="{x:Type TextBlock}">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Padding" Value="0 3 0 0"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        
+        <!--HeaderLv234-->
+        <Style x:Key="HeaderLv234" TargetType="{x:Type TextBlock}">
+            <Setter Property="Height" Value="71"/>
+            <Setter Property="Padding" Value="5 24 5 0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <!--HeaderLv34-->
+        <Style x:Key="HeaderLv34" TargetType="{x:Type TextBlock}">
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Padding" Value="5 15 5 0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <!--HeaderLv4-->
+        <Style x:Key="HeaderLv4" TargetType="{x:Type TextBlock}">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Padding" Value="5 5 5 0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <!--Header-->
+        <Style x:Key="Header" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Margin" Value="5 10 5 5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+
+        </Style>
+        
+        <Style x:Key="Cell" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
+            <Setter Property="Padding" Value="0 0 10 0"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+
+        </Style>
+        
+        <Style x:Key="GridViewColumnHeader1" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Background" Value="DarkGray" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <!--Mẫu hóa đơn-->
+        <GridViewColumnCollection  x:Key="InvoiceTemplate">
+            <GridViewColumn Width="120">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv234}" Text="Tên hóa đơn"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding tenHDon}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="120">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv234}" Text="Ký hiệu mẫu hóa đơn" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Foreground="Green" Text="{Binding kHieuMauHDon}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="120">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv234}" Text="Ký hiệu hóa đơn"  />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Foreground="Green" Text ="{Binding kHieuHDon}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+        </GridViewColumnCollection>
+
+        <!--Số tồn đầu kỳ, mua/phát hành trong kỳ-->
+        <!--Group2-1-->
+        <GridViewColumnCollection  x:Key="Group21">
+            <GridViewColumn Width="100">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv34}" Text="Từ số"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Foreground="Green" Text="{Binding soTonDauKy_tuSo, Converter={StaticResource InvoiceNumberConverter}}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="100">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv34}" Text="Đến số" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Foreground="Green" Text="{Binding soTonDauKy_denSo, Converter={StaticResource InvoiceNumberConverter}}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+        </GridViewColumnCollection>
+        
+        <!--Group2-2-->
+        <GridViewColumnCollection  x:Key="Group22">
+            <GridViewColumn Width="101">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv34}" Text="Từ số"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding muaTrongKy_tuSo, Converter={StaticResource InvoiceNumberConverter}}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="100">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv34}" Text="Đến số" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding muaTrongKy_denSo, Converter={StaticResource InvoiceNumberConverter}}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+        </GridViewColumnCollection>
+
+        <!--Group 2-->
+        <GridViewColumnCollection  x:Key="Group2">
+            <GridViewColumn Width="120">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv234}" Text="Tổng số"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding soTonMuaTrKy_tongSo}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            
+            <GridViewColumn  Header="Số tồn đầu kỳ" Width="200" >
+                <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                <TextBlock Text="{Binding .}"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="0"
+                                                       Padding="0 3 0 3"/>
+                            </Border>
+                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="200"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group21}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <GridViewRowPresenter Columns="{StaticResource Group21}" Width="200" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+            <GridViewColumn  Header="Số mua, phát hành trong kỳ" Width="200" >
+                <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                <TextBlock Text="{Binding .}"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="0"
+                                                       Padding="0 3 0 3"/>
+                            </Border>
+                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="200"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group22}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <GridViewRowPresenter Columns="{StaticResource Group22}" Width="200" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+           
+        </GridViewColumnCollection>
+        
+        <!--Số sử dụng, xóa bỏ, mất, hủy trong kỳ-->
+        <!--Group 3-1-->
+        <GridViewColumnCollection  x:Key="Group31">
+            
+            <GridViewColumn Width="81">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv34}" Text="Từ số"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding tongSoSuDung_tuSo, Converter={StaticResource InvoiceNumberConverter}}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            
+            <GridViewColumn Width="81">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv34}" Text="Đến số" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding tongSoSuDung_denSo, Converter={StaticResource InvoiceNumberConverter}}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            
+            <GridViewColumn Width="60">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv34}" Text="Cộng" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Foreground="Blue"  Text="{Binding tongSoSuDung_cong}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+        </GridViewColumnCollection>
+
+        <!--Group 3-2-a-->
+        <GridViewColumnCollection  x:Key="Group32a">
+            <GridViewColumn Width="100" HeaderContainerStyle="{StaticResource GridViewColumnHeader1}">
+               
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=HeaderLv4}" Text="Số lượng"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding xoaBo_soLuong}" Foreground="Red" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="100"  HeaderContainerStyle="{StaticResource GridViewColumnHeader1}">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv4}" Text="Số" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding xoaBo_so}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+        </GridViewColumnCollection>
+
+        <!--Group 3-2-b-->
+        <GridViewColumnCollection  x:Key="Group32b">
+            
+            <GridViewColumn Width="100">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv4}" Text="Số lượng"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding mat_soLuong}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="100">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv4}" Text="Số" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding mat_so}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+        </GridViewColumnCollection>
+
+        <!--Group 3-2-c-->
+        <GridViewColumnCollection  x:Key="Group32c">
+            <GridViewColumn Width="100">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv4}" Text="Số lượng"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding huy_soLuong}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="100">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv4}" Text="Số" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding huy_so}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+        </GridViewColumnCollection>
+        
+        <!--Group 3-2-->
+        <GridViewColumnCollection  x:Key="Group32">
+            <!--Số lượng đã sử dụng-->
+            <GridViewColumn Width="100">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=Header}" Text="Số lượng đã sử dụng"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding soDaSDung}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            
+            <!--Xóa bỏ-->
+            <GridViewColumn  Header="Xóa bỏ" Width="201" >
+                <!--Header-->
+                <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                <TextBlock Text="{Binding .}"  HorizontalAlignment="Center"  Grid.Row="0" Padding="0 3 0 3"/>
+                            </Border>
+                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="201"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group32a}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+
+                <!--Cell-->
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <GridViewRowPresenter Columns="{StaticResource Group32a}" Width="201" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+            <!--Mất-->
+            <GridViewColumn  Header="Mất" Width="201" >
+                <!--Header-->
+                <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                <TextBlock Text="{Binding .}"  HorizontalAlignment="Center"  Grid.Row="0" Padding="0 3 0 3"/>
+                            </Border>
+                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="201"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group32b}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+
+                <!--Cell-->
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <GridViewRowPresenter Columns="{StaticResource Group32b}" Width="201" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            
+            <!--Hủy-->
+            <GridViewColumn  Header="Hủy" Width="201" >
+                <!--Header-->
+                <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                <TextBlock Text="{Binding .}"  HorizontalAlignment="Center"  Grid.Row="0" Padding="0 3 0 3"/>
+                            </Border>
+                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="201"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group32c}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+
+                <!--Cell-->
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <GridViewRowPresenter Columns="{StaticResource Group32c}" Width="201" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+        </GridViewColumnCollection>
+
+        <!--Group 3-->
+        <GridViewColumnCollection  x:Key="Group3">
+            <!--3-1-->
+            <GridViewColumn  Header="Tổng số sử dụng, xóa bỏ, mất, hủy" Width="222" >
+                <!--Header-->
+                <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                <TextBlock Text="{Binding .}"  HorizontalAlignment="Center"  Grid.Row="0" Padding="0 3 0 3"/>
+                            </Border>
+                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="222"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group31}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                
+                <!--Cell-->
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <GridViewRowPresenter Columns="{StaticResource Group31}" Width="222" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+
+            <!--3-2-->
+            <GridViewColumn  Header="Trong đó" Width="703" >
+                <GridViewColumn.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+
+                                <TextBlock Text="{Binding .}"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="0"
+                                                       Padding="0 3 0 3"/>
+                            </Border>
+                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="703"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group32}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <GridViewRowPresenter Columns="{StaticResource Group32}" Width="703" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+           
+        </GridViewColumnCollection>
+
+        <!--Số tồn cuối kỳ-->
+        <GridViewColumnCollection  x:Key="Group4">
+            <GridViewColumn Width="80">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv234}" Text="Từ số"   />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding tonCuoiKy_tuSo, Converter={StaticResource InvoiceNumberConverter}}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="80">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv234}" Text="Đến số" />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding tonCuoiKy_denSo, Converter={StaticResource InvoiceNumberConverter}}" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="80">
+                <GridViewColumn.HeaderTemplate >
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=HeaderLv234}" Text="Số lượng"  />
+                    </DataTemplate>
+                </GridViewColumn.HeaderTemplate>
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource ResourceKey=Cell}" Text ="{Binding tonCuoiKy_soLuong}" Foreground="Blue" />
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+        </GridViewColumnCollection>
+
+
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Border
+                  x:Name="Border" 
+                  Grid.ColumnSpan="2"
+                  CornerRadius="0"
+                  Background="DarkGray"
+                  BorderBrush="#FF97A0A5"
+                  BorderThickness="1" />
+                <Border 
+                  Grid.Column="0"
+                  CornerRadius="0" 
+                  Margin="1" 
+                  Background="White" 
+                  BorderBrush="#FF97A0A5"
+                  BorderThickness="1,0,1,0" />
+                <Path 
+                  x:Name="Arrow"
+                  Grid.Column="1"     
+                  Fill="Black"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                />
+            </Grid>
+            <!--<ControlTemplate.Triggers>
+            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                <Setter TargetName="Border" Property="Background" Value="#808080" />
+            </Trigger>
+            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                <Setter TargetName="Border" Property="Background" Value="#E0E0E0" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Border" Property="Background" Value="#EEEEEE" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="#AAAAAA" />
+                <Setter Property="Foreground" Value="#888888"/>
+                <Setter TargetName="Arrow" Property="Fill" Value="#888888" />
+            </Trigger>
+        </ControlTemplate.Triggers>-->
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
+            <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <ToggleButton 
+                            Name="ToggleButton" 
+                            Template="{StaticResource ComboBoxToggleButton}" 
+                            Grid.Column="2" 
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="3,3,23,3"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                            <TextBox x:Name="PART_EditableTextBox"
+                            Style="{x:Null}" 
+                            Template="{StaticResource ComboBoxTextBox}" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Margin="3,3,23,3"
+                            Focusable="True" 
+                            Background="#FF3F3F3F"
+                            Foreground="Green"
+                            Visibility="Hidden"
+                            IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup 
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True" 
+                            Focusable="False"
+                            PopupAnimation="Slide">
+
+                                <Grid Name="DropDown"
+                              SnapsToDevicePixels="True"                
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border 
+                                x:Name="DropDownBorder"
+                                Background="#FF3F3F3F"
+
+                                BorderThickness="1"
+                                BorderBrush="#888888"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </Trigger>
+                            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                                <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0"/>
+                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsEditable"  Value="true">
+                                <Setter Property="IsTabStop" Value="false"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+
+        <!-- SimpleStyles: ComboBoxItem -->
+        <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border Name="Border"
+                              Padding="2"
+                              SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#FF4F4F4F"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TextboxListView" TargetType="{x:Type TextBox}" >
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+
+        <!--Style Combobox -->
+        <Style x:Key="ComboBoxLocal" TargetType="{x:Type ComboBox}" >
+            <Setter Property="Padding" Value="5 0 0 0"/>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="130"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="303*"/>
+                <ColumnDefinition Width="63*"/>
+                <ColumnDefinition Width="131*"/>
+            </Grid.ColumnDefinitions>
+            <uc:ControlBarUC Tag="{Binding Title, ElementName= bc26Window}" Grid.ColumnSpan="3"></uc:ControlBarUC>
+        </Grid>
+        
+        <!--Layout Info-->
+        <Grid Grid.Row="1" Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.6*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.4*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row ="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
+
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right"> Năm tài chính:</TextBlock>
+                    <ComboBox Grid.Column="1" Height="22" Foreground="Black"  SelectedIndex="0" Margin="3 0 0 0"
+                              ItemsSource="{Binding YearList}" 
+                              SelectedItem="{Binding Path=SelectedYear}">
+                        <!--<ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding YearList}"  HorizontalAlignment="Left" Padding="0 5 0 0" Foreground="Black"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>-->
+                    </ComboBox>
+
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Period}"></TextBlock>
+
+                    <ComboBox Grid.Column="3" Height="22" Foreground="Black"  SelectedIndex="0" Margin="3 0 0 0"
+                              ItemsSource="{Binding MonthList}" 
+                              SelectedItem="{Binding Path=SelectedMonth}" >
+                        <!--<ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}"  HorizontalAlignment="Left" Padding="0 5 0 0" Foreground="Black"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>-->
+                    </ComboBox>
+
+                    <CheckBox Grid.Column="4" Margin="7 0 0 0" Command="{Binding ReportPeriodCommand}" IsChecked="{Binding IsCheckBoxPeriod}">Báo cáo quý</CheckBox>
+                </Grid>
+                <Grid Grid.Row ="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right"> 1.Tên tổ chức(cá nhân):</TextBlock>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Left" FontWeight="DemiBold" Padding="10 0 0 0" Text="{Binding EnterpriseData.company_name}"></TextBlock>
+
+                </Grid>
+                <Grid Grid.Row ="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right"> 2.Mã số thuế:</TextBlock>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Left" FontWeight="DemiBold" Padding="10 0 0 0" Text="{Binding EnterpriseData.tax_code}"></TextBlock>
+
+                </Grid>
+                <Grid Grid.Row ="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right"> 3.Địa chỉ:</TextBlock>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Left" FontWeight="DemiBold" TextWrapping="Wrap" Padding="10 0 0 0" Text="{Binding EnterpriseData.address}"></TextBlock>
+
+                </Grid>
+            </Grid>
+            
+            <Grid Grid.Column="1">
+                <StackPanel>
+                    <TextBlock TextAlignment="Center" > </TextBlock>
+                    <TextBlock TextAlignment="Center" Margin="0 0 0 8" FontSize="16" FontWeight="DemiBold"> BÁO CÁO SỬ DỤNG HÓA ĐƠN</TextBlock>
+                    <TextBlock TextAlignment="Center" Margin="0 0 0 8" Foreground="Blue" Text="{Binding  TextReportLine1}"></TextBlock>
+                    <TextBlock TextAlignment="Center" Margin="0 0 0 8"  Text="{Binding TimePeriod}"></TextBlock>
+
+                </StackPanel>
+            </Grid>
+            
+            <Grid Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1" Margin="0 10 15 10" >
+                    <Border BorderBrush="Black" BorderThickness="1" Padding="10 20 10 15">
+                        <StackPanel>
+                            <TextBlock TextAlignment="Center"> Mẫu BC26/AC </TextBlock>
+                            <TextBlock TextAlignment="Center"> (Ban hành kèm theo thông tư số</TextBlock>
+                            <TextBlock TextAlignment="Center"> 39/2014/TT-BTC ngày 31/03/2014</TextBlock>
+                            <TextBlock TextAlignment="Center"> của Bộ Tài Chính)</TextBlock>
+
+                        </StackPanel>
+                       
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+        
+        <!--Layout ListView-->
+        <Grid Grid.Row="2">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Auto">
+
+                <ListView ItemsSource="{Binding HoadonFieldList}">
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="Background" Value="DarkGray" />
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        </Style>
+
+                    </ListView.Resources>
+
+                    <ListView.View>
+                        <GridView>
+
+                            <!--Group 0-->
+                            <GridViewColumn Width="40">
+                                <GridViewColumn.HeaderTemplate >
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource ResourceKey=Header}" Text="STT"   />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock  Style="{StaticResource ResourceKey=Cell}" Text="{Binding Stt}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!--Group 1-->
+                            <GridViewColumn Header="Mẫu hóa đơn" Width="360">
+                                <!--HeaderTemplate-->
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                                <TextBlock Grid.Row="0" Text="{Binding .}"  Style="{StaticResource HeaderLv1}" />
+                                            </Border>
+
+                                            <GridViewHeaderRowPresenter  Grid.Row="1"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                                         Columns="{StaticResource InvoiceTemplate}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <!--CellTemplate-->
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <GridViewRowPresenter Columns="{StaticResource InvoiceTemplate}" Width="400" />
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!--Group 2-->
+                            <GridViewColumn Header="Tổng số tồn đầu kỳ, mua/phát hành trong kỳ" Width="520">
+                                <!--HeaderTemplate-->
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                                <TextBlock Text="{Binding .}" Style="{StaticResource HeaderLv1}"
+                                                   HorizontalAlignment="Center" Grid.Row="0" />
+                                            </Border>
+                                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="601"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group2}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <!--CellTemplate-->
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <GridViewRowPresenter Columns="{StaticResource Group2}" Width="601" />
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!--Group 3-->
+                            <GridViewColumn Header="Số sử dụng, xóa bỏ, mất, hủy trong kỳ" Width="925">
+                                <!--HeaderTemplate-->
+
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+
+                                                <TextBlock  Grid.Row="0" Text="{Binding .}" Style="{StaticResource HeaderLv1}" />
+                                            </Border>
+                                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" Width="925"
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group3}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <!--CellTemplate-->
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <GridViewRowPresenter Columns="{StaticResource Group3}" Width="925" />
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!--Group 4-->
+                            <GridViewColumn Header="Tồn cuối kỳ" Width="240">
+                                <!--HeaderTemplate-->
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                                                <TextBlock Grid.Row="0" Text="{Binding .}" Style="{StaticResource HeaderLv1}"/>
+                                            </Border>
+                                            <GridViewHeaderRowPresenter
+                                            Grid.Row="1" 
+                                            HorizontalAlignment="Stretch"
+                                            Columns="{StaticResource Group4}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <!--CellTemplate-->
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <GridViewRowPresenter Columns="{StaticResource Group4}" Width="240" />
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </ScrollViewer>
+        </Grid>
+
+        <!--Layout Button-->
+        <Grid Grid.Row="3" Height="100" Background="LightGray" Margin="10,0,-10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.8*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+            </Grid>
+            <Grid Grid.Column="1" Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" >
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap"> Người lập biểu:  (Ký, ghi rõ họ, tên)</TextBlock>
+                </Grid>
+
+            </Grid>
+            <Grid Grid.Column="2" Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" >
+                    <StackPanel>
+                        <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Today}"></TextBlock>
+                        <TextBlock TextAlignment="Center" Height="10" TextWrapping="Wrap"></TextBlock>
+
+                        <TextBlock TextAlignment="Center" FontSize="16" FontWeight= "DemiBold" TextWrapping="Wrap">NGƯỜI ĐẠI DIỆN PHÁP LUẬT</TextBlock>
+                        <TextBlock TextAlignment="Center" TextWrapping="Wrap">(Ký, ghi rõ họ tên và đóng dấu)</TextBlock>
+
+
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+            <Grid Grid.Column="3" Margin="15 0 15 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="1" Command="{Binding ExportB26XMLCommand}"
+                                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                Width="150" Margin="0 0 0 5" BorderBrush="Transparent" BorderThickness="0"
+                                ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                      Print
+                </Button>
+
+                <Button Grid.Row="2" Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                Width="150" Margin="0 0 0 0" BorderBrush="Transparent" BorderThickness="0"
+                                Command="{Binding CloseCommand}" 
+                                CommandParameter="{Binding ElementName=bc26Window}"
+                                ToolTip="Resource name: MaterialDesignRaisedLightButton">
+                    Đóng
+                </Button>
+            </Grid>
+        </Grid>
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="4" VerticalAlignment="Stretch" Background="DarkGray">
+            <TextBlock 
+                VerticalAlignment="Center"
+                Margin="10 0 0 0"
+                Text="{Binding Path= StatusBarString}"/>
+        </Grid>
+
+    </Grid>
+</Window>

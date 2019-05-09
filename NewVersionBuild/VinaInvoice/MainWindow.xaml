@@ -1,0 +1,172 @@
+﻿<Window x:Class="VinaInvoice.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VinaInvoice"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        
+        mc:Ignorable="d"
+        DataContext="{StaticResource MainVM}"
+        xmlns:uc="clr-namespace:VinaInvoice.UserControlARI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        
+        Name="mainWindow"
+        Title="Hóa đơn điện tử VinaInvoice" Height="600" Width="1100" >
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" 
+                                   CommandParameter="{Binding ElementName=mainWindow}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <!--<RowDefinition Height="35"></RowDefinition>-->
+        </Grid.RowDefinitions>
+        
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=mainWindow}"></uc:ControlBarUC>
+        </Grid>
+        
+        <!-- Layout Menu bar -->
+        <Grid Grid.Row="1">
+            <Menu IsMainMenu="True">
+                <!-- Menu Ganeral Setting -->
+                <MenuItem Header="_Hệ thống">
+                    <MenuItem Header="Danh mục sản phẩm" Command="{Binding ItemListCommand}"/>
+                    <MenuItem Header="Danh mục khách hàng" Command="{Binding CustomerListCommand}"/>
+                    <MenuItem Header="Danh sách tài khoản" Command="{Binding UserListCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Cài đặt chung" Command="{Binding GaneralSettingCommand}"
+                        InputGestureText="Ctrl+E">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Console" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Thông tin tài khoản" Command="{Binding UserInfoCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Mẫu hóa đơn" Command="{Binding InvoiceTemplateCommand}"/>
+                    <MenuItem Header="Ký hiệu hóa đơn" Command="{Binding InvoiceSerialCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Thoát" 
+                              Command="{Binding CloseCommand}"
+                              CommandParameter="{Binding ElementName=mainWindow}"
+/>
+                </MenuItem>
+                
+                <!-- Menu Invoice -->
+                <MenuItem Header="_Hóa đơn">
+                    <MenuItem Header="Hóa đơn chưa ký" Command="{Binding InvoiceDraftCommand}"/>
+                    <MenuItem Header="Hóa đơn đã ký, phát hành" Command="{Binding InvoiceSignedCommand}"/>
+                    <MenuItem Header="Hóa đơn chuyển đổi" Command="{Binding InvoiceChangeCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Hóa đơn xóa/bỏ" Command="{Binding InvoiceDeleteCommand }"/>
+                    <MenuItem Header="Báo cáo sử dụng hóa đơn " Command="{Binding InvoiceReportCommand}"/>
+                </MenuItem>
+                
+                <!-- Menu Tools -->
+                <MenuItem Header="_Công cụ">
+                    <MenuItem Header="Smart Import .." Command="{Binding ImportExcelCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Kiểm tra, xác thực hóa đơn" />
+                    <MenuItem Header="Download Ultra Viewer" />
+                </MenuItem>
+
+                <!-- Menu Introduce -->
+                <MenuItem Header="_Giới thiệu">
+                </MenuItem>
+            </Menu>
+        </Grid>
+
+        <!-- Layout Tools bar -->
+        <Grid Grid.Row="2">
+            <ToolBarTray>
+                <ToolBar    Style="{DynamicResource MaterialDesignToolBar}"
+                            ClipToBounds="True" 
+                            HorizontalAlignment="Left" Width="840"
+                           >
+                            <Button ToolTip="Thiết lập chung" Command="{Binding GaneralSettingCommand}">
+                                    <Image  Source="Resources/ic_ganeral_setting.png"
+                                            Height="35"
+                                            Width="35"
+                                            Stretch="UniformToFill" />
+                            </Button>
+                            <Button
+                                ToolTip="Import Excel" Command="{Binding ImportExcelCommand}">
+                                <Image Source="Resources/ic_import_excel.png"
+                                       Height="35"
+                                       Width="35"
+                                       Stretch="UniformToFill" />
+                            </Button>
+
+                            <Button ToolTip="Hóa đơn chuyển đổi" Command="{Binding InvoiceChangeCommand}">
+                                    <Image Source="Resources/ic_change_invoice.png"
+                                           Height="35"
+                                           Width="35"
+                                           Stretch="UniformToFill" />
+                            </Button>
+                            <Button ToolTip="Báo cáo sử dụng hóa đơn"  Command="{Binding InvoiceReportCommand}">
+                                    <Image Source="Resources/ic_report_invoice.png"
+                                           Height="35"
+                                           Width="35"
+                                           Stretch="UniformToFill" />
+                            </Button>
+                            <Separator />
+                            <Button ToolTip="Hóa đơn đã ký, phát hành"  Command="{Binding InvoiceSignedCommand}">
+                                    <Image Source="Resources/ic_bill_invoice.png"
+                                               Height="35"
+                                               Width="35"
+                                               Stretch="UniformToFill" />
+                            </Button>
+                            <Button ToolTip="Hóa đơn chưa phát hành"  Command="{Binding InvoiceDraftCommand}">
+                                    <Image Source="Resources/ic_draft_invoice.png"
+                                               Height="35"
+                                               Width="35"
+                                               Stretch="UniformToFill" />
+                            </Button>
+                            <Button ToolTip="Lập hóa đơn" Command="{Binding InvoiceCreateCommand}">
+                                    <Image Source="Resources/ic_create_invoice.png"
+                                               Height="35"
+                                               Width="35"
+                                               Stretch="UniformToFill" />
+                            </Button>
+                </ToolBar>
+            </ToolBarTray>
+        </Grid>
+
+        <!-- Layout Content -->
+        <materialDesign:Card  Grid.Row="3" 
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch" Background="LightGray">
+            <Image Source="Resources/ic_logo_vina.png"
+                   Height="170"
+                   Width="320"
+                   Stretch="UniformToFill" />
+
+        </materialDesign:Card>
+
+        <!-- Layout Status bar --><!--
+        <Grid Grid.Row="4" VerticalAlignment="Stretch" Background="DarkGray">
+            <TextBlock 
+                VerticalAlignment="Center"
+                Margin="10 0 0 0"
+                Text="{Binding Path= StatusBarString}"/>
+        </Grid>-->
+    </Grid>
+</Window>

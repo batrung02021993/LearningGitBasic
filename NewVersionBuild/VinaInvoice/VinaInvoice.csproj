@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{66435715-0330-4518-AF35-598C6CCF60B3}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>VinaInvoice</RootNamespace>
+    <AssemblyName>VinaInvoice</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dragablz, Version=0.0.3.203, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.203\lib\net45\Dragablz.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.2.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.2.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Gu.Wpf.Adorners, Version=1.5.0.0, Culture=neutral, PublicKeyToken=6dfb64f9972bd31d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gu.Wpf.Adorners.1.5.0.0\lib\net45\Gu.Wpf.Adorners.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Validation, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="TuesPechkin, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TuesPechkin.2.1.1\lib\net20\TuesPechkin.dll</HintPath>
+    </Reference>
+    <Reference Include="TuesPechkin.Wkhtmltox.AnyCPU, Version=0.12.4.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TuesPechkin.Wkhtmltox.AnyCPU.0.12.4.1\lib\net20\TuesPechkin.Wkhtmltox.AnyCPU.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BC26Window.xaml.cs">
+      <DependentUpon>BC26Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Const.cs" />
+    <Compile Include="Common\DateTimeConvert.cs" />
+    <Compile Include="Common\Excel_Utils.cs" />
+    <Compile Include="Common\InvoiceErrorClient.cs" />
+    <Compile Include="Converter\ComboBoxConverter.cs" />
+    <Compile Include="Converter\DateTimeConverter.cs" />
+    <Compile Include="Converter\doubleConverter.cs" />
+    <Compile Include="Common\Global_Variable.cs" />
+    <Compile Include="Common\Message.cs" />
+    <Compile Include="Common\StringFormat.cs" />
+    <Compile Include="Converter\TaxConverter.cs" />
+    <Compile Include="Converter\UiVisibleConverter.cs" />
+    <Compile Include="CustomerCreateWindow.xaml.cs">
+      <DependentUpon>CustomerCreateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerEditWindow.xaml.cs">
+      <DependentUpon>CustomerEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerListWindow.xaml.cs">
+      <DependentUpon>CustomerListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\JsonObjectModel\CustomerAddListJson.cs" />
+    <Compile Include="Data\DataContext\B26RestApi.cs" />
+    <Compile Include="Data\DataContext\BaseRestApi.cs" />
+    <Compile Include="Data\DataContext\CheckPermissionApi.cs" />
+    <Compile Include="Data\DataContext\CustomerRestApi.cs" />
+    <Compile Include="Data\DataContext\EnterpriseRestApi.cs" />
+    <Compile Include="Data\DataContext\InvoiceRestApi.cs" />
+    <Compile Include="Data\DataContext\ProductRestApi.cs" />
+    <Compile Include="Data\DataContext\RemoteDataContext.cs" />
+    <Compile Include="Data\DataContext\SoftwareRestApi.cs" />
+    <Compile Include="Data\DataContext\UserRestApi.cs" />
+    <Compile Include="Data\RepositoryInterface\ICheckPermissonRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\ICustomerRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IEnterpriseDetailRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IEnterpriseRespository.cs" />
+    <Compile Include="Data\RepositoryInterface\IInvoiceFormRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IInvoiceInvoiceRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IInvoiceSerialDetailRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IInvoiceSerialRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IProductRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IProfileRepository.cs" />
+    <Compile Include="Data\RepositoryInterface\IUserRespository.cs" />
+    <Compile Include="Data\Repository\CheckPermissionRepository.cs" />
+    <Compile Include="Data\Repository\CustomerRepository.cs" />
+    <Compile Include="Data\Repository\EnterpriseDetailRepository.cs" />
+    <Compile Include="Data\Repository\EnterpriseRepository.cs" />
+    <Compile Include="Data\Repository\InvoiceFormRepository.cs" />
+    <Compile Include="Data\Repository\InvoiceInvoiceRepository.cs" />
+    <Compile Include="Data\Repository\InvoiceSerialDetailRepository.cs" />
+    <Compile Include="Data\Repository\InvoiceSerialRepository.cs" />
+    <Compile Include="Data\Repository\ProductRepository.cs" />
+    <Compile Include="Data\Repository\Repository.cs" />
+    <Compile Include="Data\Repository\ProfileRepository.cs" />
+    <Compile Include="Data\Repository\UserRepository.cs" />
+    <Compile Include="DefaultFormSerial.xaml.cs">
+      <DependentUpon>DefaultFormSerial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GaneralSettingWindow.xaml.cs">
+      <DependentUpon>GaneralSettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceChangeListWindow.xaml.cs">
+      <DependentUpon>InvoiceChangeListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceCreateWindow.xaml.cs">
+      <DependentUpon>InvoiceCreateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceDeleteWindow.xaml.cs">
+      <DependentUpon>InvoiceDeleteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceDraftWindow.xaml.cs">
+      <DependentUpon>InvoiceDraftWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceInfoWindow.xaml.cs">
+      <DependentUpon>InvoiceInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceKeepWindow.xaml.cs">
+      <DependentUpon>InvoiceKeepWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceSerialWindow.xaml.cs">
+      <DependentUpon>InvoiceSerialWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceSignedWindow.xaml.cs">
+      <DependentUpon>InvoiceSignedWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceTemplateWindow.xaml.cs">
+      <DependentUpon>InvoiceTemplateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ApplicationCache.cs" />
+    <Compile Include="Model\BC26Serialization.cs" />
+    <Compile Include="Model\DataMigration.cs" />
+    <Compile Include="Model\Invoice.cs" />
+    <Compile Include="Model\JsonObjectModel\CheckPermissionResponse.cs" />
+    <Compile Include="Model\JsonObjectModel\CheckPermissonRequest.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceAddListDraftJson.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceInvoiceDetailListJson.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceInvoiceSearchJson.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceKeepListDateRequest.cs" />
+    <Compile Include="Model\JsonObjectModel\ProductAddListJson.cs" />
+    <Compile Include="Model\PropertyValidateModel.cs" />
+    <Compile Include="Model\CBMethod.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\EnterPrise.cs" />
+    <Compile Include="Model\EnterpriseDetail.cs" />
+    <Compile Include="Model\Form.cs" />
+    <Compile Include="Model\SerialDetail.cs" />
+    <Compile Include="Model\InvoiceSerialization.cs" />
+    <Compile Include="Model\JsonObjectModel\CustomerDeleteRequest.cs" />
+    <Compile Include="Model\JsonObjectModel\CustomerDeleteResponse.cs" />
+    <Compile Include="Model\JsonObjectModel\CustomerListResponse.cs" />
+    <Compile Include="Model\JsonObjectModel\CustomerSearchJson.cs" />
+    <Compile Include="Model\JsonObjectModel\EnterpriseRequest.cs" />
+    <Compile Include="Model\JsonObjectModel\EnterpriseResponse.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceChangeJson.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceCreateJson.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceFormRequest.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceFormResponse.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceInvoiceDeleteJson.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceInvoiceListJson.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceSerialListResponse.cs" />
+    <Compile Include="Model\JsonObjectModel\InvoiceUpdateXMLJson.cs" />
+    <Compile Include="Model\JsonObjectModel\Login.cs" />
+    <Compile Include="Model\JsonObjectModel\ProductDeleteRequest.cs" />
+    <Compile Include="Model\JsonObjectModel\ProductDeleteResponse.cs" />
+    <Compile Include="Model\JsonObjectModel\ProductListRequest.cs" />
+    <Compile Include="Model\JsonObjectModel\ProductListResponse.cs" />
+    <Compile Include="Model\JsonObjectModel\ProductSearchJson.cs" />
+    <Compile Include="Model\JsonObjectModel\UserListRequest.cs" />
+    <Compile Include="Model\JsonObjectModel\UserListResponse.cs" />
+    <Compile Include="Model\Member.cs" />
+    <Compile Include="Model\MoneyUnit.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\ProfileData.cs" />
+    <Compile Include="Model\Serial.cs" />
+    <Compile Include="Model\TaxValue.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="PinDialog.xaml.cs">
+      <DependentUpon>PinDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopupAddProductWindow.xaml.cs">
+      <DependentUpon>PopupAddProductWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCreateWindow.xaml.cs">
+      <DependentUpon>ProductCreateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductEditWindow.xaml.cs">
+      <DependentUpon>ProductEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductListWindow.xaml.cs">
+      <DependentUpon>ProductListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlARI\ControlBarUC.xaml.cs">
+      <DependentUpon>ControlBarUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInfoWindow.xaml.cs">
+      <DependentUpon>UserInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserListWindow.xaml.cs">
+      <DependentUpon>UserListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\B26ViewModel.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\ControlBarViewModel.cs" />
+    <Compile Include="ViewModel\CustomerCreateViewModel.cs" />
+    <Compile Include="ViewModel\CustomerEditViewModel.cs" />
+    <Compile Include="ViewModel\CustomerListViewModel.cs" />
+    <Compile Include="ViewModel\DefaultFormSerialViewModel.cs" />
+    <Compile Include="ViewModel\GenaralSettingViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceChangeModel.cs" />
+    <Compile Include="ViewModel\InvoiceCreateViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceDeletedViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceDraftViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceInfoViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceEditViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceSerialViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceSignedViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceTemplateViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PinDialogViewModel.cs" />
+    <Compile Include="ViewModel\PopupAddProductViewModel.cs" />
+    <Compile Include="ViewModel\ProductCreateViewModel.cs" />
+    <Compile Include="ViewModel\ProductEditViewModel.cs" />
+    <Compile Include="ViewModel\ProductListViewModel.cs" />
+    <Compile Include="ViewModel\UserInfoViewModel.cs" />
+    <Compile Include="ViewModel\UserListViewModel.cs" />
+    <Page Include="BC26Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomerCreateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomerEditWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomerListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DefaultFormSerial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GaneralSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceChangeListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceCreateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceDeleteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceDraftWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceKeepWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceSerialWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceSignedWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InvoiceTemplateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="PinDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopupAddProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductCreateWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ProductEditWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ProductListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceXAML\MainResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControlARI\ControlBarUC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\ic_change_invoice.png" />
+    <Resource Include="Resources\ic_logo_vina.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ic_import_excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ic_ganeral_setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ic_report_invoice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ic_bill_invoice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ic_draft_invoice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ic_create_invoice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ic_button_plus.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

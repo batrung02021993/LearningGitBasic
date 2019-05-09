@@ -1,0 +1,520 @@
+﻿<Window x:Class="VinaInvoice.GaneralSettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VinaInvoice"
+        xmlns:converter="clr-namespace:VinaInvoice.Common.Converter"
+        mc:Ignorable="d"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+
+        xmlns:uc="clr-namespace:VinaInvoice.UserControlARI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        BorderBrush="DarkBlue"
+        BorderThickness="0.75"
+        
+        Name="generalSetting"
+        Title="Thông tin tài khoản" 
+        Height="450" Width="750">
+    <!--DataContext="{StaticResource GenaralSettingVM}"-->
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        <converter:doubleConverter x:Key="doubleConverter"/>
+        <BooleanToVisibilityConverter x:Key="Converter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="303*"/>
+                <ColumnDefinition Width="63*"/>
+                <ColumnDefinition Width="131*"/>
+            </Grid.ColumnDefinitions>
+            <uc:ControlBarUC Tag="{Binding Title, ElementName= generalSetting}" Grid.ColumnSpan="3"></uc:ControlBarUC>
+        </Grid>
+
+        <Grid Grid.Row="1">
+        
+            <dragablz:TabablzControl Margin="7" SelectionChanged="TabablzControl_SelectionChanged" >
+                <dragablz:TabablzControl.InterTabController>
+                    <dragablz:InterTabController />
+                </dragablz:TabablzControl.InterTabController>
+
+             
+                <TabItem Header="Thông tin công ty">
+                    <Grid  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1" Margin="20 20 20 0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="125"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Tên công ty:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" IsReadOnly="True"
+                                        Text="{Binding Path= EnterPrise.company_name}" BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                            <!--<TextBox   Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" 
+                                            BorderBrush="DarkGray" BorderThickness="1" ></TextBox>
+                            <TextBlock   Grid.Column="1" VerticalAlignment="Center" Background="Transparent" Margin="10 5 0 5" Padding="5 0 0 0" 
+                                         Text="{Binding Path= EnterPrise.company_name}"></TextBlock>-->
+
+
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right"   >Mã số thuế:</TextBlock>
+                            <TextBox   Grid.Column="3" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" IsReadOnly="True"
+                                        Text="{Binding Path= EnterPrise.tax_code}" BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+                         
+                        </Grid>
+
+                        <Grid Grid.Row="2" Margin="20 0 20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Top" TextAlignment="Right" Margin="0 7 0 0">Địa chỉ:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" Height="60" VerticalContentAlignment="Top"
+                                        Text="{Binding Path= EnterPrise.address}"  BorderBrush="DarkGray" BorderThickness="1" IsReadOnly="True"></TextBox>
+
+
+                        </Grid>
+
+                        <Grid Grid.Row="3" Margin="20 0 20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="125"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Ngân hàng:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" IsReadOnly="True"
+                                        Text="{Binding Path= EnterPrise.bank_name}" BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right"  >Số tài khoản:</TextBlock>
+
+                            <TextBox   Grid.Column="3" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" IsReadOnly="True"
+                                        Text="{Binding Path= EnterPrise.bank_number}" BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+                        </Grid>
+
+                        <Grid Grid.Row="4" Margin="20 0 20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="125"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Điện thoại:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" IsReadOnly="True"
+                                        Text="{Binding Path= EnterPrise.phone_number}" BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right" >Số Fax:</TextBlock>
+
+                            <TextBox   Grid.Column="3" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" IsReadOnly="True"
+                                        Text="{Binding Path= EnterPrise.fax}"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                            <TextBlock Grid.Column="4" VerticalAlignment="Center" TextAlignment="Right" >Số thập phân:</TextBlock>
+
+                            <TextBox   Grid.Column="5" Background="White" Margin="10 5 0 5" Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"
+                                        Text="{Binding num, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+
+                        </Grid>
+
+                        <Grid Grid.Row="5" Margin="20 0 20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="125"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Địa chỉ Email:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" IsReadOnly="True" 
+                                       Text="{Binding Path= EnterPrise.email}" BorderBrush="DarkGray" BorderThickness="1" ></TextBox>
+
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right" >Website:</TextBlock>
+
+                            <TextBox   Grid.Column="3" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" IsReadOnly="True"
+                                       Text="{Binding Path= EnterPrise.website}" BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="www."></TextBox>
+
+
+                        </Grid>
+
+                        <Grid Grid.Row="6" Margin="20 10 20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <RadioButton Grid.Column="1"  Margin="5 0 0 0"
+                                      Style="{StaticResource MaterialDesignRadioButton}" Tag="True" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <RadioButton.IsChecked>
+                                    <Binding Path="Tag"
+                                             RelativeSource="{RelativeSource Self}">
+                                        <Binding.ValidationRules>
+                                       
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </RadioButton.IsChecked>
+                                Hiển thị mã hàng hóa, dịch vụ
+                            </RadioButton>
+
+                        </Grid>
+
+                        <Grid Grid.Row="7" Margin="20 10 20 20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <RadioButton Grid.Column="1"  Margin="5 0 0 0"
+                                      Style="{StaticResource MaterialDesignRadioButton}" Tag="True" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <RadioButton.IsChecked>
+                                    <Binding Path="Tag"
+                                             RelativeSource="{RelativeSource Self}">
+                                        <Binding.ValidationRules>
+
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </RadioButton.IsChecked>
+                                Tạo file hóa đơn định dạng *.PDF
+                            </RadioButton>
+
+                            <CheckBox Visibility="{Binding Path=ShowCheckBoxMoneyAmount, Converter={StaticResource Converter}}"
+                                      Grid.Column="3" Command="{Binding EditMoneyAmountCheckCommand}"  IsChecked="{Binding EditMoneyAmountCheck, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,20,6">
+                                Chỉnh sửa thành tiền
+                            </CheckBox>
+
+                        </Grid>
+
+                    </Grid>
+                </TabItem>
+
+                <!--<TabItem Header="Thiết lập Email">
+                    <Grid  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="170"></RowDefinition>
+
+
+
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1" Margin="20 20 20 0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="130"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >SMTP Mail Server:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 10 5" Padding="2 0 0 0" 
+                                            BorderBrush="DarkGray" BorderThickness="1">0</TextBox>
+
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right"  >Port:</TextBlock>
+
+                            <TextBox   Grid.Column="3" Background="White" Margin="10 5 10 5" Padding="2 0 0 0"
+                                            BorderBrush="DarkGray" BorderThickness="1">0</TextBox>
+
+                            <RadioButton    Grid.Column="4" Style="{StaticResource MaterialDesignRadioButton}" Tag="True" Grid.ColumnSpan="2" VerticalAlignment="Center">
+                                <RadioButton.IsChecked>
+                                    <Binding Path="Tag"
+                                             RelativeSource="{RelativeSource Self}">
+                                        <Binding.ValidationRules>
+            
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </RadioButton.IsChecked>
+                                Gửi email tự động
+                            </RadioButton>
+
+                        </Grid>
+
+                        <Grid Grid.Row="2" Margin="20 0 20 0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="200"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Tài khoản Email:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 10 5" Padding="2 0 0 0" 
+                                            BorderBrush="DarkGray" BorderThickness="1">0</TextBox>
+
+                            <TextBlock Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right"  >Email test:</TextBlock>
+
+                            <TextBox   Grid.Column="4" Background="White" Margin="10 5 10 5" Padding="2 0 0 0"
+                                            BorderBrush="DarkGray" BorderThickness="1">0</TextBox>
+
+
+                        </Grid>
+
+                        <Grid Grid.Row="3" Margin="20 0 20 0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="200"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Mật khẩu:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 10 5" Padding="2 0 0 0" 
+                                            BorderBrush="DarkGray" BorderThickness="1">0</TextBox>
+
+
+                            <Button  Grid.Column="4"  Width="120"  Margin="10 0 0 0" Height="30" HorizontalAlignment="Left" Background="DarkCyan">
+                                Test Email
+                            </Button>
+
+                        </Grid>
+
+                        <Grid Grid.Row="4" Margin="37 0 20 0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <RadioButton    Grid.Column="1" Style="{StaticResource MaterialDesignRadioButton}" Tag="True" Grid.ColumnSpan="2" VerticalAlignment="Center">
+                                <RadioButton.IsChecked>
+                                    <Binding Path="Tag"
+                                             RelativeSource="{RelativeSource Self}">
+                                        <Binding.ValidationRules>
+                                          
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </RadioButton.IsChecked>
+                                SSL
+                            </RadioButton>
+
+
+                        </Grid>
+
+                    </Grid>
+                </TabItem>-->
+
+                <!--<TabItem Header="API Web Service">
+                               <Grid  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="100"></RowDefinition>
+
+
+
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="1" Margin="20 20 20 0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Địa chỉ WebServer:</TextBlock>
+
+                    <TextBox   Grid.Column="1" Background="White" Margin="10 5 10 5" Padding="2 0 0 0" 
+                                            BorderBrush="DarkGray" BorderThickness="1">0</TextBox>
+
+                   
+
+                </Grid>
+                
+                <Grid Grid.Row="2" Margin="20 0 20 0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Mã bí mật:</TextBlock>
+
+                    <TextBox   Grid.Column="1" Background="White" Margin="10 5 10 5" Padding="2 0 0 0" 
+                                            BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="******"></TextBox>
+
+                    <Button  Grid.Column="2"   Width="120" Height="30"  Margin="0 0 0 0"  Background="DarkCyan" HorizontalAlignment="Right">
+                        Sinh khóa
+                    </Button>
+
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="20 0 20 0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >TK Email WS:</TextBlock>
+
+                    <TextBox   Grid.Column="1" Background="White" Margin="10 5 10 5" Padding="2 0 0 0" 
+                                            BorderBrush="DarkGray" BorderThickness="1">0</TextBox>
+
+
+
+                </Grid>
+
+                <Grid Grid.Row="4" Margin="20 0 20 0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Mật khẩu:</TextBlock>
+
+                            <TextBox   Grid.Column="1" Background="White" Margin="10 5 10 5" Padding="2 0 0 0" 
+                                            BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="******"></TextBox>
+
+
+
+                </Grid>
+
+                <Grid Grid.Row="5" Margin="20 0 20 0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+
+
+                    <RadioButton  Grid.Column="1" Style="{StaticResource MaterialDesignRadioButton}" Tag="True" VerticalAlignment="Center" Margin="10 0 0 0">
+                        <RadioButton.IsChecked>
+                            <Binding Path="Tag"
+                                             RelativeSource="{RelativeSource Self}">
+                                <Binding.ValidationRules>
+                                  
+            </Binding.ValidationRules>
+            </Binding>
+            </RadioButton.IsChecked>
+            Đã có tài khoản
+            </RadioButton>
+
+            <Button Grid.Column="2" Width="120" Height="30" Margin="0 5 0 5" Background="DarkCyan">Đăng ký</Button>
+
+
+        </Grid>
+
+
+    </Grid>
+    </TabItem>-->
+
+              
+                
+            </dragablz:TabablzControl>
+
+
+
+
+        </Grid>
+        <Grid Grid.Row="2">
+                <Grid  Width="250" Margin="0 15 20 2 " HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120*"/>
+                        <ColumnDefinition Width="120*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button 
+                        Command="{Binding SaveCommand}"
+                        Grid.Column="0" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Width="120"  Margin="0 0 0 0" 
+                                                ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Left">
+                        Lưu
+                    </Button>
+                    <Button  Grid.Column="1" Style="{StaticResource MaterialDesignRaisedLightButton}"  Width="120"  Margin="0 0 0 0" 
+                             Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName= generalSetting}"
+
+                             ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Right">
+                        Đóng
+                    </Button>
+                </Grid>
+            <!--<TextBox               
+                x:Name="textBox" HorizontalAlignment="Left" 
+                Height="23" Margin="63,15,0,0" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Top" Width="120"
+                
+                Text="{Binding num, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+            
+        </Grid>
+        </Grid>
+
+</Window>

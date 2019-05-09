@@ -1,0 +1,136 @@
+﻿<Window x:Class="VinaInvoice.PopupAddProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VinaInvoice"
+        mc:Ignorable="d"
+         DataContext="{StaticResource PopupAddProductVM}"
+        
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+
+        
+        xmlns:uc="clr-namespace:VinaInvoice.UserControlARI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        BorderBrush="DarkBlue"
+        BorderThickness="0.75"
+        
+        Name="addProductWindow"
+        Title="Thêm sản phẩm" 
+        Height="300" Width="500">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="303*"/>
+                <ColumnDefinition Width="63*"/>
+                <ColumnDefinition Width="131*"/>
+            </Grid.ColumnDefinitions>
+            <uc:ControlBarUC Tag="{Binding Title, ElementName= addProductWindow}" Grid.ColumnSpan="3"></uc:ControlBarUC>
+        </Grid>
+
+        <!-- Layout Lable -->
+        <Grid Grid.Row="1" Margin="15 25 0 0">
+            <TextBlock Text="Thêm sản phẩm" FontSize="25" FontWeight="DemiBold" HorizontalAlignment="Center"></TextBlock>
+        </Grid>
+
+        <!--Layout Content-->
+        <Grid Grid.Row="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="20 0 20 0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Sản phẩm:</TextBlock>
+
+                <!--<TextBox   Grid.Column="1"   Background="White" Margin="10 5 0 5" Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="Nhập tên sản phẩm"></TextBox>-->
+                <ComboBox   Grid.Column="1" Height="30" Margin="10 5 0 5" Padding="5 0 10 0" materialDesign:HintAssist.Hint="Nhập tên sản phẩm" IsEditable="True" 
+                            Background="White" BorderBrush="DarkGray" BorderThickness="1" VerticalContentAlignment="Center">
+                    <ComboBoxItem>
+                        Apple
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        Banana
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        Pear
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        Orange
+                    </ComboBoxItem>
+                </ComboBox>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="20 0 20 0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="114*"/>
+                    <ColumnDefinition Width="65*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" Margin="0,10" >Số lượng:</TextBlock>
+                <TextBox    Grid.Column="1" Height="30" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="Nhập số lượng" Grid.ColumnSpan="2"></TextBox>
+
+            </Grid>
+
+
+
+        </Grid>
+
+        <!-- Layout Button -->
+        <Grid Grid.Row="3" Margin="0 50 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <Button Command="{Binding AddCommand}"
+                Grid.Column="1" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Width="140" ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Left">
+                Thêm
+            </Button>
+            <Button 
+                Command="{Binding CloseCommand}"
+                CommandParameter="{Binding ElementName=productCreateWindow}"
+                Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}"  Width="140" 
+                                        ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Right">
+                Đóng
+            </Button>
+        </Grid>
+    </Grid>
+
+</Window>

@@ -1,0 +1,247 @@
+﻿<Window x:Class="VinaInvoice.InvoiceTemplateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VinaInvoice"
+        mc:Ignorable="d"
+        DataContext="{StaticResource InvoiceTemplateVM}"
+        
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+
+        
+        xmlns:uc="clr-namespace:VinaInvoice.UserControlARI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        
+        
+        Name="invoiceTemplateListWindow"
+        Title="Danh sách mẫu hóa đơn" 
+        Height="600" Width="1100">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="303*"/>
+                <ColumnDefinition Width="63*"/>
+                <ColumnDefinition Width="131*"/>
+            </Grid.ColumnDefinitions>
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=invoiceTemplateListWindow}" Grid.ColumnSpan="3"></uc:ControlBarUC>
+        </Grid>
+
+        <!-- Layout Tool bar -->
+        <Grid Grid.Row="1">
+            <materialDesign:ColorZone Background="LightGray" Padding="10">
+                <DockPanel>
+
+
+                    <materialDesign:Card Background="Transparent"
+                                         BorderBrush="Aqua"
+                                         DockPanel.Dock="Left">
+                        <Grid Margin="10 0 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="163*"/>
+                                <ColumnDefinition Width="197*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="Mẫu Hóa Đơn" FontSize="27" FontWeight="DemiBold" Grid.ColumnSpan="2"/>
+                            <TextBlock Grid.Row="1" Text="Xem mẫu hóa đơn điện tử" FontSize="15" Grid.ColumnSpan="2"/>
+
+                        </Grid>
+
+                    </materialDesign:Card>
+
+
+                </DockPanel>
+            </materialDesign:ColorZone>
+        </Grid>
+
+        <!--Layout List Item-->
+        <Grid Grid.Row="2">
+            <ListView ItemsSource="{Binding DataList}" Margin="10,0,-10,0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding STT}"
+                                        Header="Stt" Width="50" />
+                        <GridViewColumn DisplayMemberBinding="{Binding id}"
+                                        Header="Id" Width="200"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding form_name}"
+                                        Header="Ký Hiệu Mẫu" Width="200" />
+                        <GridViewColumn DisplayMemberBinding="{Binding create_by}"
+                                        Header="Người Tạo" Width="200" />
+                        <GridViewColumn DisplayMemberBinding="{Binding create_time}"
+                                        Header="Thời Gian Tạo" Width="200" />
+                        <GridViewColumn DisplayMemberBinding="{Binding _using}"
+                                        Header="Tình trạng" Width="150" />
+                     
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <!-- Layout Tool bar -->
+        <Grid Grid.Row="3">
+            <materialDesign:ColorZone Background="LightGray" Padding="10">
+                <DockPanel>
+                    <!--Layout Search-->
+                    <materialDesign:Card Background="Transparent"
+                                         BorderBrush="Aqua"
+                                         DockPanel.Dock="Left">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                       
+
+                            <Grid Grid.Row="1" Margin="-2 5 1 1">
+
+
+                            </Grid>
+
+                        </Grid>
+
+                    </materialDesign:Card>
+
+                    <!--Layout Page/Sort-->
+                    <Border    BorderThickness="1"
+                                BorderBrush="DarkGray"
+                                ClipToBounds="True"
+                                Margin="10 0 0 0">
+                        <Grid Margin="15 5 5 10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <!--Row 0-->
+                            <Grid  Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <!--Page-->
+                                <TextBlock Grid.Column="0" VerticalAlignment="Center">Trang:</TextBlock>
+
+                                <TextBlock   Grid.Column="1" Height="25" VerticalAlignment="Center" Background="White" Margin="0 10 0 10" Padding="12 5 0 0" >1</TextBlock>
+
+                                <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="10 0 10 0">Số dòng:</TextBlock>
+                                <TextBlock   Grid.Column="3" Height="25" VerticalAlignment="Center" Background="White" Margin="0 10 0 10" Padding="12 5 0 0">50</TextBlock>
+
+                                <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="10 0 10 0">Sắp xếp:</TextBlock>
+
+                                <ComboBox  Grid.Column="5" Height="30" materialDesign:HintAssist.Hint="Id" Foreground="Black" 
+                                    Background="White" Padding="5 0 0 0 " VerticalContentAlignment="Center">
+                                    <ComboBoxItem>
+                                        Id
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+                                        Ký hiệu mẫu
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+                                        Người tạo
+                                    </ComboBoxItem>
+                               
+                                </ComboBox>
+
+                                <RadioButton  Grid.Column="6" Style="{StaticResource MaterialDesignRadioButton}" Tag="True" VerticalAlignment="Center" Margin="10 0 0 0">
+                                    <RadioButton.IsChecked>
+                                        <Binding Path="Tag"
+                                             RelativeSource="{RelativeSource Self}">
+                                            <Binding.ValidationRules>
+                                                <!--todo Biding-->
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </RadioButton.IsChecked>
+                                    Giảm dần
+                                </RadioButton>
+
+                                <RadioButton  Grid.Column="7" Style="{StaticResource MaterialDesignRadioButton}" Tag="True" Grid.ColumnSpan="2" VerticalAlignment="Center">
+                                    <RadioButton.IsChecked>
+                                        <Binding Path="Tag"
+                                             RelativeSource="{RelativeSource Self}">
+                                            <Binding.ValidationRules>
+                                                <!--todo Biding-->
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </RadioButton.IsChecked>
+                                    Tăng dần
+                                </RadioButton>
+                            </Grid>
+                            <!--Row 1-->
+                            <Grid Grid.Row="1" Margin="0 0 0 0"  ClipToBounds="True">
+                                <DockPanel >
+                                    
+
+                                    <Grid DockPanel.Dock="Right" Width="250" Margin="0 2 20 2 " HorizontalAlignment="Right">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120*"/>
+                                            <ColumnDefinition Width="120*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button
+                                            Command="{Binding PreviousPageCommand}"
+                                            Grid.Column="0" Style="{StaticResource MaterialDesignRaisedLightButton}"  Width="120"  Margin="0 0 0 0" 
+                                                ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Left">
+                                            Trang trước
+                                        </Button>
+                                        <Button 
+                                            Command="{Binding NextPageCommand}"
+                                            Grid.Column="1" Style="{StaticResource MaterialDesignRaisedLightButton}"  Width="120"  Margin="0 0 0 0" 
+                                        ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Right">
+                                            Trang tiếp
+                                        </Button>
+                                    </Grid>
+
+                                </DockPanel>
+                            </Grid>
+
+                        </Grid>
+
+                    </Border>
+                </DockPanel>
+            </materialDesign:ColorZone>
+        </Grid>
+
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="4" VerticalAlignment="Stretch" Background="DarkGray">
+            <TextBlock 
+                VerticalAlignment="Center"
+                Margin="10 0 0 0"
+                Text="{Binding Path= StatusBarString}"/>
+        </Grid>
+
+    </Grid>
+</Window>

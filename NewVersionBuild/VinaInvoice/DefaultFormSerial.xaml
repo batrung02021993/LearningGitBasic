@@ -1,0 +1,129 @@
+﻿<Window x:Class="VinaInvoice.DefaultFormSerial"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VinaInvoice"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+       DataContext="{StaticResource DefaultFormSerialVM}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        BorderBrush="DarkBlue"
+        BorderThickness="0.5"
+        mc:Ignorable="d"
+         Name="DefaultFormSerialWindow"
+         Title="" Height="420" Width="650">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+          
+        </Grid>
+        <Grid Grid.Row="1" >
+            <TextBlock Text="Chọn ký hiệu mặc định "
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="37" Margin="0 20 0 20"
+                       FontWeight="Bold" />
+        </Grid>
+        <materialDesign:Card Background="LightGray" Grid.Row="2" Width="600" Height="300" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Grid">
+                        <Setter Property="Margin" Value="15 5 15 5"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition ></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                  
+
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Background="Transparent">
+                 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1.5*"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">Mấu hóa đơn:</TextBlock>
+                    <ComboBox Grid.Row="1" Height="35" Foreground="Black"                               
+                              ItemsSource="{Binding Path= FormLists}" SelectedItem="{Binding Path=sform, Mode=TwoWay}"  >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Foreground="Black" Text="{Binding Path=form_name}" HorizontalAlignment="Left" Padding="10 0 0 0"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1.5*"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">Ký hiệu:</TextBlock>
+                    <ComboBox Grid.Row="1" Height="35" Foreground="Black" ItemsSource="{Binding Path= SerialListUI}" SelectedItem="{Binding Path=sserial}"  >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Foreground="Black" Text="{Binding Path=serial_name}" HorizontalAlignment="Left" Padding="10 0 0 0"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                </Grid>
+              
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition ></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+
+
+                    <CheckBox Grid.Column="0" IsChecked="{Binding Sendmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Column="1" 
+                               Text="Gửi mail ?     "
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="15"/>
+
+
+                    <Button Command="{Binding Ok}"
+                            CommandParameter="{Binding ElementName=DefaultFormSerialWindow}"
+                            IsDefault="True"
+                            Grid.Column="2"    
+                            Style="{StaticResource MaterialDesignRaisedButton}"    
+                            Margin="5"    
+                            ToolTip="Resource name: MaterialDesignRaisedButton" Content="OK"></Button>
+                    <Button Command="{Binding Cancel}"
+                             CommandParameter="{Binding ElementName=DefaultFormSerialWindow}"
+                            Grid.Column="3"    
+                            Style="{StaticResource MaterialDesignRaisedButton}"    
+                            Margin="5 5 0 5"   
+                            Background="OrangeRed"
+                            ToolTip="Resource name: MaterialDesignRaisedButton" Content="Cancel"></Button>
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
+</Window>

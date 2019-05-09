@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewmodel="clr-namespace:VinaInvoice.ViewModel"
+                    xmlns:local="clr-namespace:VinaInvoice.ResourceXAML"
+                    xmlns:validate="clr-namespace:VinaInvoice.Common">
+    
+    <viewmodel:MainViewModel x:Key="MainVM"></viewmodel:MainViewModel>
+    <viewmodel:UserListViewModel x:Key="UserListVM"></viewmodel:UserListViewModel>
+    <viewmodel:InvoiceTemplateViewModel x:Key="InvoiceTemplateVM"></viewmodel:InvoiceTemplateViewModel>
+    <viewmodel:UserInfoViewModel x:Key="UserInfoVM"></viewmodel:UserInfoViewModel>
+
+    <viewmodel:InvoiceDraftViewModel x:Key="InvoiceDraftVM"></viewmodel:InvoiceDraftViewModel>
+    <viewmodel:InvoiceChangeModel x:Key="InvoiceChangeVM"></viewmodel:InvoiceChangeModel>
+    <viewmodel:LoginViewModel x:Key="LoginVM"></viewmodel:LoginViewModel>
+    <viewmodel:ProductCreateViewModel x:Key="ProductCreateVM"></viewmodel:ProductCreateViewModel>
+    <viewmodel:ProductListViewModel x:Key="ProductListVM"></viewmodel:ProductListViewModel>
+    <viewmodel:ProductEditViewModel x:Key="ProductEditVM"></viewmodel:ProductEditViewModel>
+
+    <viewmodel:CustomerListViewModel x:Key="CustomerListVM"></viewmodel:CustomerListViewModel>
+    <viewmodel:CustomerCreateViewModel x:Key="CustomerCreateVM"></viewmodel:CustomerCreateViewModel>
+    <viewmodel:CustomerEditViewModel x:Key="CustomerEditVM"></viewmodel:CustomerEditViewModel>
+
+    <viewmodel:InvoiceSerialViewModel x:Key="InvoiceSerialVM"></viewmodel:InvoiceSerialViewModel>
+    <viewmodel:InvoiceCreateViewModel x:Key="InvoiceCreateVM"></viewmodel:InvoiceCreateViewModel>
+    <viewmodel:InvoiceSignedViewModel x:Key="InvoiceSignedVM"></viewmodel:InvoiceSignedViewModel>
+    <viewmodel:InvoiceDeletedViewModel x:Key="InvoiceDeletedVM"></viewmodel:InvoiceDeletedViewModel>
+    <viewmodel:InvoiceInfoViewModel x:Key="InvoiceInfoVM"></viewmodel:InvoiceInfoViewModel>
+    <viewmodel:InvoiceEditViewModel x:Key="InvoiceKeepVM"></viewmodel:InvoiceEditViewModel>
+    <viewmodel:PinDialogViewModel x:Key="PinDialogVM"></viewmodel:PinDialogViewModel>
+
+    <viewmodel:PopupAddProductViewModel x:Key="PopupAddProductVM"></viewmodel:PopupAddProductViewModel>
+    <viewmodel:GenaralSettingViewModel x:Key="GenaralSettingVM"></viewmodel:GenaralSettingViewModel>
+    <viewmodel:B26ViewModel x:Key="BC26VM"></viewmodel:B26ViewModel>
+    <viewmodel:DefaultFormSerialViewModel x:Key="DefaultFormSerialVM"></viewmodel:DefaultFormSerialViewModel>
+
+
+
+</ResourceDictionary>

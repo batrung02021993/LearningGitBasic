@@ -1,0 +1,220 @@
+﻿<Window x:Class="VinaInvoice.ProductEditWindow"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VinaInvoice"
+        mc:Ignorable="d"
+        DataContext="{StaticResource ProductEditVM}"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+
+        
+        xmlns:uc="clr-namespace:VinaInvoice.UserControlARI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        BorderBrush="DarkBlue"
+        BorderThickness=".75"
+        WindowStartupLocation="CenterScreen"
+        
+        
+        Name="productCreateWindow"
+        Title="Chỉnh sửa sản phẩm" 
+        Height="450" Width="750">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="303*"/>
+                <ColumnDefinition Width="63*"/>
+                <ColumnDefinition Width="131*"/>
+            </Grid.ColumnDefinitions>
+            <uc:ControlBarUC Tag="{Binding Title, ElementName= productCreateWindow}" Grid.ColumnSpan="3"></uc:ControlBarUC>
+        </Grid>
+
+        <!-- Layout Lable -->
+        <Grid Grid.Row="1" Margin="110 25 0 0">
+            <TextBlock Text="Sản phẩm dịch vụ" FontSize="25" FontWeight="DemiBold"></TextBlock>
+        </Grid>
+
+        <!-- Product Name-->
+        <Grid Grid.Row="3" Margin="20 0 20 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="85"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Margin="0 7 0 0" VerticalAlignment="Top" TextAlignment="Right" >Tên sản phẩm:</TextBlock>
+
+            <TextBox               
+                Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" VerticalContentAlignment="Top"
+                BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="Tên hàng hóa, dịch vụ ..."
+                Text ="{Binding Product.item_name}">
+            </TextBox>
+
+
+        </Grid>
+        <Grid Grid.Row="4" Margin="20 0 20 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="85"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Margin="0 7 0 0" VerticalAlignment="Top" TextAlignment="Right" >Mã hàng hóa:</TextBlock>
+
+            <TextBox               
+                Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" VerticalContentAlignment="Top"
+                BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="Mã hàng hóa"
+                Text ="{Binding Product.item_code}">
+            </TextBox>
+
+
+        </Grid>
+
+        <!-- Unit Item-->
+        <Grid Grid.Row="5" Margin="20 0 20 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="85"/>
+                <ColumnDefinition Width="154"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="139"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="155*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" Margin="0,11,0,10" >Đơn vị tính:</TextBlock>
+
+            <!--<toolkit:AutoCompleteBox x:Name="AcbxUnitName"  Grid.Column="1"  BorderBrush="DarkGray" BorderThickness="1"  Background="White" Margin="10 5 0 5"  IsTextCompletionEnabled="True" FilterMode="Contains"
+                                                   ItemsSource="{Binding UnitNames}"  SelectedItem="{Binding a, Mode=TwoWay}">-->
+            <TextBox  Grid.Column="1" Text="{Binding Product.unit_name}"  Background="White" Margin="10 5 0 5" Padding="2 0 0 0"
+                       BorderBrush="DarkGray" BorderThickness="1"  materialDesign:HintAssist.Hint="" Grid.ColumnSpan="1"/>
+
+            <!--</toolkit:AutoCompleteBox>-->
+
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right" Margin="0,11,0,10" >Đơn giá:</TextBlock>
+
+            <TextBox  Grid.Column="3" Text="{Binding Product.unit_price}"  Background="White" Margin="10 5 0 5" Padding="2 0 0 0"
+                       BorderBrush="DarkGray" BorderThickness="1"  materialDesign:HintAssist.Hint="0.000" Grid.ColumnSpan="1"/>
+
+            <TextBlock Grid.Column="4" VerticalAlignment="Center" TextAlignment="Right"  >Số lượng:</TextBlock>
+
+            <TextBox  
+                Text="{Binding Product.quantity}"
+                Grid.Column="5" Background="White" Margin="10 5 0 5" Padding="2 0 0 0"
+                       BorderBrush="DarkGray" BorderThickness="1"  materialDesign:HintAssist.Hint="0"></TextBox>
+
+        </Grid>
+
+        <!-- Unit Item-->
+        <Grid Grid.Row="6" Margin="20 0 20 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="85"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="139"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" TextAlignment="Right" Margin="0,14,0,10" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >Nội, ngoại tệ:</TextBlock>
+
+
+            <!--<ComboBox Grid.Column="1" Margin="10 5 0 5" 
+                     Foreground="Black"  ItemsSource="{Binding Path= MoneyUnits}" SelectedItem="{Binding Path=SMoneyUnit}"  SelectedIndex="0" Grid.ColumnSpan="2" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock  Text="{Binding Path=Name}" HorizontalAlignment="Left" Padding="10 0 0 0"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>-->
+            <TextBox 
+                Text="{Binding Product.current_code}"
+                Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0"
+                       BorderBrush="DarkGray" BorderThickness="1"  materialDesign:HintAssist.Hint=""  Grid.ColumnSpan="2"></TextBox>
+
+            <TextBlock Grid.Column="3" TextAlignment="Right" Margin="0,14,0,10" >Giảm giá:</TextBlock>
+
+            <TextBox 
+                Text="{Binding Product.discount_amount}"
+                Grid.Column="4" Background="White" Margin="10 5 0 5" Padding="2 0 0 0"
+                       BorderBrush="DarkGray" BorderThickness="1"  materialDesign:HintAssist.Hint="0.000"></TextBox>
+            <TextBlock Grid.Column="5" TextAlignment="Right" Margin="0,14,0,10">Thuế suất:</TextBlock>
+
+            <TextBox  
+                Text="{Binding Product.vat_percentage}"
+                Grid.Column="6" Background="White" Margin="10 5 0 5" Padding="2 0 0 0"
+                       BorderBrush="DarkGray" BorderThickness="1"  materialDesign:HintAssist.Hint="10%"/>
+
+
+        </Grid>
+
+        <!-- Description-->
+        <Grid Grid.Row="7" Margin="20 0 20 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="85"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" VerticalAlignment="Top" Margin="0 7 0 0" TextAlignment="Right" >Mô tả:</TextBlock>
+
+            <TextBox 
+                Text="{Binding Product.item_note}"
+                Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" Height="100" VerticalContentAlignment="Top"
+                       BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="Mô tả sản phẩm ..."></TextBox>
+
+
+        </Grid>
+
+
+        <!-- Layout Button -->
+        <Grid Grid.Row="8" Margin="0 20 20 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Command="{Binding SaveCommand}"
+                Grid.Column="1" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Width="120"  
+                                                ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Left">
+                Lưu
+            </Button>
+            <Button 
+                Command="{Binding CloseCommand}"
+                CommandParameter="{Binding ElementName=productCreateWindow}"
+                Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}"  Width="120" 
+                                        ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Right">
+                Đóng
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

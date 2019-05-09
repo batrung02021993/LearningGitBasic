@@ -1,0 +1,11 @@
+/VinaInvoice/obj
+/VinaInvoice/bin
+/.vs/VinaInvoice/v15/Server/sqlite3
+/HandleXMLfile/bin/Debug
+/XML/obj/Debug
+/HandleXMLfile/obj/Release
+/XML/obj/Release
+/VinaInvoice/Data/DataContext/BaseRestApi.cs
+/VinaInvoice/ViewModel/LoginViewModel.cs
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite

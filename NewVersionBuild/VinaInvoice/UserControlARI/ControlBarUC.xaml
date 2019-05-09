@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="VinaInvoice.UserControlARI.ControlBarUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VinaInvoice.UserControlARI"
+             
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"             
+             
+             
+             Name="ucControlBar"
+             mc:Ignorable="d">
+
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding MouseMoveWindowCommand}" CommandParameter="{Binding ElementName=ucControlBar}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Grid>
+        <materialDesign:ColorZone Mode="PrimaryLight" >
+            <DockPanel>                
+                <StackPanel DockPanel.Dock="Right"  Background="Transparent" Orientation="Horizontal"
+                            Margin="0 0 7 0">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="3 6 2 6"></Setter>
+                            <Setter Property="Width" Value="35"></Setter>
+                        </Style>                        
+                    </StackPanel.Resources>
+                    <Button Command="{Binding MinimizeWindowCommand}" 
+                            CommandParameter="{Binding ElementName=ucControlBar}"
+                        ToolTip="Đóng" ToolBar.OverflowMode="AsNeeded" Background="ForestGreen">
+                        <materialDesign:PackIcon Kind="WindowMinimize" />
+                    </Button>
+                    <Button Command="{Binding MaximizeWindowCommand}" 
+                            CommandParameter="{Binding ElementName=ucControlBar}"
+                        ToolTip="Đóng" ToolBar.OverflowMode="AsNeeded" Background="ForestGreen">
+                        <materialDesign:PackIcon Kind="WindowMaximize" />
+                    </Button>
+                    <Button Command="{Binding CloseWindowCommand}" 
+                            CommandParameter="{Binding ElementName=ucControlBar}"
+                            ToolTip="Đóng" ToolBar.OverflowMode="AsNeeded" Background="OrangeRed">
+                        <materialDesign:PackIcon Kind="WindowClose" />
+                     </Button> 
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="7 0 0 0">
+                    <TextBlock VerticalAlignment="Center" 
+                               Margin="5 0 0 0" 
+                               FontSize="15"
+                               Text="{Binding Tag, ElementName=ucControlBar}"></TextBlock>
+                </StackPanel>                
+            </DockPanel>
+        </materialDesign:ColorZone>
+    </Grid>
+</UserControl>

@@ -1,0 +1,1145 @@
+﻿<Window x:Class="VinaInvoice.InvoiceCreateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:VinaInvoice.Common.Converter"
+        xmlns:adorners="http://gu.se/Adorners"
+        xmlns:local="clr-namespace:VinaInvoice"
+        mc:Ignorable="d"
+       
+        
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+        
+        xmlns:uc="clr-namespace:VinaInvoice.UserControlARI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        BorderBrush="DarkBlue"
+        BorderThickness="0.75"
+        
+        Name="invoiceCreateWindow"
+        Title="Lập hóa đơn" 
+        Height="700" Width="1200">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Border
+                  x:Name="Border" 
+                  Grid.ColumnSpan="2"
+                  CornerRadius="0"
+                  Background="DarkGray"
+                  BorderBrush="#FF97A0A5"
+                  BorderThickness="1" />
+                <Border 
+                  Grid.Column="0"
+                  CornerRadius="0" 
+                  Margin="1" 
+                  Background="White" 
+                  BorderBrush="#FF97A0A5"
+                  BorderThickness="1,0,1,0" />
+                <Path 
+                  x:Name="Arrow"
+                  Grid.Column="1"     
+                  Fill="Black"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                />
+            </Grid>
+
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
+            <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <ToggleButton 
+                            Name="ToggleButton" 
+                            Template="{StaticResource ComboBoxToggleButton}" 
+                            Grid.Column="2" 
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="3,3,23,3"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                            <TextBox x:Name="PART_EditableTextBox"
+                            Style="{x:Null}" 
+                            Template="{StaticResource ComboBoxTextBox}" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Margin="3,3,23,3"
+                            Focusable="True" 
+                            Background="#FF3F3F3F"
+                            Foreground="Green"
+                            Visibility="Hidden"
+                            IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup 
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True" 
+                            Focusable="False"
+                            PopupAnimation="Slide">
+
+                                <Grid Name="DropDown"
+                              SnapsToDevicePixels="True"                
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border 
+                                x:Name="DropDownBorder"
+                                Background="#FF3F3F3F"
+
+                                BorderThickness="1"
+                                BorderBrush="#888888"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </Trigger>
+                            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                                <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0"/>
+                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsEditable"  Value="true">
+                                <Setter Property="IsTabStop" Value="false"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+
+        <!-- SimpleStyles: ComboBoxItem -->
+        <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border Name="Border"
+                              Padding="2"
+                              SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#FF4F4F4F"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TextboxListView" TargetType="{x:Type TextBox}" >
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+
+        </Style>
+
+        <Style x:Key="TextboxAutoComleted" TargetType="{x:Type TextBox}" >
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="5 0 0 0"/>
+            <Setter Property="Padding" Value="5 8 0 0"/>
+
+        </Style>
+
+        <!--Style Combobox -->
+        <Style x:Key="ComboBoxLocal" TargetType="{x:Type ComboBox}" >
+            <Setter Property="Padding" Value="5 0 0 0"/>
+        </Style>
+
+        <converter:doubleConverterQuantity x:Key="doubleConverterQuantity"/>
+        <converter:doubleConverter x:Key="doubleConverter"/>
+        <converter:doubleConverter x:Key="doubleConverter1"/>
+        <converter:IntegerConverter x:Key="IntegerConverter"/>
+        <converter:TaxConverter x:Key="TaxConverter"/>
+        <converter:ComboBoxConverter x:Key="ComboBoxConverter"/>
+        <converter:ComboBoxIndexConverter x:Key="ComboBoxIndexConverter"/>
+        <converter:PerCentFortmatConverterDiscount x:Key="PerCentFortmatConverterDiscount"/>
+        <converter:PerCentFortmatConverterServiceCharge x:Key="PerCentFortmatConverterServiceCharge"/>
+        <converter:TextBoxConverter x:Key="TextBoxConverter"/>
+        <converter:UiVisibleConverter x:Key="UiVisibleConverter"/>
+        <converter:IsEnableConverter x:Key="IsEnableConverter"/>
+        <converter:IsEnableNagativeConverter x:Key="IsEnableNagativeConverter"/>
+
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="303*"/>
+                <ColumnDefinition Width="63*"/>
+                <ColumnDefinition Width="131*"/>
+            </Grid.ColumnDefinitions>
+            <uc:ControlBarUC Tag="{Binding Title, ElementName= invoiceCreateWindow}" Grid.ColumnSpan="3"></uc:ControlBarUC>
+        </Grid>
+
+        <!-- Layout Content -->
+        <Grid Grid.Row="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+                          VerticalScrollBarVisibility="Auto" Background="LightGray" Margin="0 0 0 3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="180"></RowDefinition>
+                        <RowDefinition Height="180"></RowDefinition>
+                        <RowDefinition Height="300"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!-- Layout Tool bar -->
+                    <Grid Grid.Row="0">
+                        <materialDesign:ColorZone Background="LightGray" Padding="10" Height="180">
+
+                            <Grid Margin="10 0 0 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+
+                                    </Grid.RowDefinitions>
+                                    <TextBlock                                       
+                                        Grid.Row="0" Margin="5 10 0 5" FontSize="15"> 
+                                        <Hyperlink Command="{Binding ShowCertificateCommand}" TextDecorations="Underline" Foreground="Green">Chứng thư số(In token)</Hyperlink>
+                                    </TextBlock>
+                                    <TextBox 
+                                        Text="{Binding CertificateStatus}"
+                                        Grid.Row="1" Margin="0 0 15 0" Padding="5" TextWrapping="Wrap" VerticalContentAlignment="Top" MaxLines="6" Background="White" BorderBrush="Black" BorderThickness="1" Foreground="{Binding CerStatus, Converter={StaticResource TextBoxConverter}}"></TextBox>
+
+                                </Grid>
+
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" FontSize="25" HorizontalAlignment="Center" FontWeight="Bold"> HÓA ĐƠN GIÁ TRỊ GIA TĂNG</TextBlock>
+                                    <TextBlock Grid.Row="1" FontSize="20" HorizontalAlignment="Center" Foreground="Blue"> Ngày ... tháng ... năm ...</TextBlock>
+
+                                </Grid>
+
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0"  Background="Transparent" Margin="0,0,10,5" Height="30" VerticalAlignment="Bottom">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="130"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" Margin="0 0 10 0">Mẫu số(Form):</TextBlock>
+                                        <ComboBox Grid.Column="1" Height="30" Foreground="Black"  
+                                                  ItemsSource="{Binding Path = FormLists}" 
+                                                  SelectedItem="{Binding Path=sform}"  
+                                                  SelectedIndex="{Binding InitIndex, Converter={StaticResource ComboBoxIndexConverter}}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock  Text="{Binding Path=form_name}" Width="120" HorizontalAlignment="Left" Padding="10 0 0 0"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+
+                                    </Grid>
+                                    <Grid Grid.Row="1"  Background="Transparent" Margin="0 5 10 5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="130"/>
+                                            <ColumnDefinition Width="41*"/>
+                                            <ColumnDefinition Width="14*"/>
+                                            <ColumnDefinition Width="188*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" Margin="0,6,9,7">Ký hiêu(Serial):</TextBlock>
+                                        <ComboBox Grid.Column="1" Height="30" Foreground="Black" 
+                                                  ItemsSource="{Binding Path= SerialListUI}" 
+                                                  SelectedItem="{Binding Path=sserial}" 
+                                                  Grid.ColumnSpan="3" Margin="0,0,0,1" 
+                                                  SelectedIndex="0" >
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=serial_name}" HorizontalAlignment="Left" Padding="10 0 0 0"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+
+
+                                    </Grid>
+                                    <Grid Grid.Row="2"  Background="Transparent" Margin="0 5 10 5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="130"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" Margin="0 0 10 0">Số hóa đơn(No.):</TextBlock>
+
+                                        <TextBox Grid.Column="1" BorderBrush="DarkGray" BorderThickness="1"  Background="White" Foreground="Red" Margin="0,1,5,1" Padding="5 0 0 0" IsReadOnly="True" Height="30" 
+                                                 Text="{Binding Path= UseInvoiceNumber}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="85">
+
+                                        </TextBox>
+
+                                        <ComboBox Grid.Column="2" Height="30" Foreground="Black" ItemsSource="{Binding Path= DateSignedLists}" SelectedItem="{Binding Path=sDateSigned}" Grid.ColumnSpan="3" Margin="0,0,0,1"   SelectedIndex="0">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path= dayview}" HorizontalAlignment="Left" Padding="10 0 0 0"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <!--<TextBox Grid.Column="2"
+                                            Text="{Binding InvoiceCreate.invoice_sign_date}"
+                                            BorderBrush="Black" BorderThickness="1"  Background="White" materialDesign:HintAssist.Hint="13/01/2018"/>-->
+                                    </Grid>
+
+                                    <Grid Grid.Row="3"  Background="Transparent" Margin="0 5 10 5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="130"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" Margin="0 0 10 0">Chứng từ(Ref.):</TextBlock>
+                                        <TextBox 
+                                            Text="{Binding InvoiceCreate.invoice_ref}" Height="30" Padding="5 0 0 0"
+                                            BorderBrush="DarkGray" BorderThickness="1" Grid.Column="1" Background="White"></TextBox>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+
+                        </materialDesign:ColorZone>
+                    </Grid>
+
+                    <!--Layout Buyer-->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Height="30" Margin="0 10 10 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="280"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Customer Name-->
+                            <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Họ tên người mua hàng(Buyer's name):</TextBlock>
+
+                            <Grid  Grid.Column="1"  >
+                                <TextBox x:Name="txtCustomerName"  Style="{StaticResource TextboxAutoComleted}"                                                               
+                                                                  Text="{Binding InvoiceCreate.b_name , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <toolkit:AutoCompleteBox 
+                                                            ItemsSource="{Binding DataCustomerList}"                                                            
+                                                            SelectedItem="{Binding CustomerSelected ,Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"
+                                                            ValueMemberPath="DisplayName" 
+                                                            IsTextCompletionEnabled="False" FilterMode="Contains">
+                                    <toolkit:AutoCompleteBox.Style>
+                                        <Style TargetType="toolkit:AutoCompleteBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=txtCustomerName, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Setter Property="Padding" Value="5 8 0 0"/>
+                                            <Setter Property="Margin" Value="5 0 0 0"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Foreground" Value="Transparent"/>
+                                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </toolkit:AutoCompleteBox.Style>
+                                    <toolkit:AutoCompleteBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding DisplayName}"  Width="250" Height="25"/>
+                                        </DataTemplate>
+                                    </toolkit:AutoCompleteBox.ItemTemplate>
+                                </toolkit:AutoCompleteBox>
+
+
+                            </Grid>
+
+                            <TextBlock Grid.Column="2" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Tên công ty(Company's name):</TextBlock>
+
+                            <Grid  Grid.Column="3" Margin="5 0 10 0" >
+                                <TextBox x:Name="txtCompanyName"  Style="{StaticResource TextboxAutoComleted}"                                                               
+                                                                  Text="{Binding InvoiceCreate.b_company , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <toolkit:AutoCompleteBox 
+                                                            ItemsSource="{Binding DataCustomerList}"                                                            
+                                                            SelectedItem="{Binding CustomerSelected ,Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"
+                                                            ValueMemberPath="CompanyName" 
+                                                            IsTextCompletionEnabled="False" FilterMode="Contains">
+                                    <toolkit:AutoCompleteBox.Style>
+                                        <Style TargetType="toolkit:AutoCompleteBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=txtCompanyName, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Setter Property="Padding" Value="5 8 0 0"/>
+                                            <Setter Property="Margin" Value="5 0 0 0"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Foreground" Value="Transparent"/>
+                                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </toolkit:AutoCompleteBox.Style>
+                                    <toolkit:AutoCompleteBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding CompanyName}"  Width="350" Height="25"/>
+                                        </DataTemplate>
+                                    </toolkit:AutoCompleteBox.ItemTemplate>
+                                </toolkit:AutoCompleteBox>
+
+
+                            </Grid>
+
+                        </Grid>
+
+                        <Grid Grid.Row="1" Height="30" Margin="0 5 10 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="280"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="280"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--TaxCode-->
+                            <TextBlock  Grid.Column="0" 
+                                        FontSize="14" HorizontalAlignment="Right" 
+                                        VerticalAlignment="Center" Foreground="Blue" 
+                                        Margin="0,7,0,6">Mã số thuế(Tax code):</TextBlock>
+
+                            <!--<toolkit:AutoCompleteBox x:Name="AcbxTaxCode"  Grid.Column="1"  BorderBrush="DarkGray" BorderThickness="1"  Background="White" Margin="5 0 0 0"  Padding="5 7 0 0"
+                                                    ItemsSource="{Binding DataCustomerList}"  
+                                                    SelectedItem="{Binding CustomerSelected, Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}" 
+                                                    ValueMemberPath="CompanyTaxCode" 
+                                                    IsTextCompletionEnabled="False" FilterMode="Contains"
+                                                    TextChanged="AcbxTaxCode_TextChanged"  
+                                                    adorners:Watermark.Text="Nhập mã số thuế ít nhất 10 chữ số"        
+                                                    adorners:Watermark.VisibleWhen="EmptyAndNotKeyboardFocused"
+                                                    Text="{Binding InvoiceCreate.b_tax_code, ValidatesOnExceptions=True,
+                                                    NotifyOnValidationError=False}" >
+                                <toolkit:AutoCompleteBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding CompanyTaxCode}"  Width="200" Height="25"/>
+                                    </DataTemplate>
+
+                                </toolkit:AutoCompleteBox.ItemTemplate>
+
+                            </toolkit:AutoCompleteBox>-->
+                            <Grid  Grid.Column="1" Margin="0 0 0 0" >
+
+                                <TextBox x:Name="txtTaxcode"  Style="{StaticResource TextboxAutoComleted}"                                                               
+                                                          Text="{Binding InvoiceCreate.b_tax_code ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                                ValidatesOnExceptions=True, NotifyOnValidationError=False}"
+                                                                adorners:Watermark.Text="Nhập mã số thuế ít nhất 10 chữ số"        
+                                                                adorners:Watermark.VisibleWhen="EmptyAndNotKeyboardFocused"/>
+
+                                <toolkit:AutoCompleteBox 
+                                                            ItemsSource="{Binding DataCustomerList}"                                                            
+                                                            SelectedItem="{Binding CustomerSelected ,Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"
+                                                            ValueMemberPath="CompanyTaxCode"                           
+                                                            IsTextCompletionEnabled="False" FilterMode="Contains">
+                                    <toolkit:AutoCompleteBox.Style>
+                                        <Style TargetType="toolkit:AutoCompleteBox">
+                                            <Setter Property="Text" Value="{Binding ElementName=txtTaxcode, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Setter Property="Padding" Value="5 8 0 0"/>
+                                            <Setter Property="Margin" Value="5 0 0 0"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Foreground" Value="Transparent"/>
+                                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </toolkit:AutoCompleteBox.Style>
+                                    <toolkit:AutoCompleteBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding CompanyTaxCode}"  Width="350" Height="25"/>
+                                        </DataTemplate>
+                                    </toolkit:AutoCompleteBox.ItemTemplate>
+                                </toolkit:AutoCompleteBox>
+                            </Grid>
+
+                            <!--Save Button-->
+                            <Button 
+                                Command="{Binding CreateCustomerCommand}"
+                                Grid.Column="2"  Margin="10 0 0 0" Background="Transparent" Foreground="Black" Height="28">Lưu</Button>
+                        
+                            <!--Email-->
+                            <TextBlock Grid.Column="3" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"   >Email:</TextBlock>
+
+                            <Grid  Grid.Column="4" Margin="5 0 10 0" >
+                                <TextBox x:Name="txtCustomerEmail"  
+                                         Style="{StaticResource TextboxAutoComleted}"                                                               
+                                         Text="{Binding InvoiceCreate.b_email , UpdateSourceTrigger=PropertyChanged}"/>
+                            </Grid>
+
+                            <CheckBox Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,20,6" IsChecked="{Binding InvoiceCreate.send_mail}">
+                                Có gửi Email
+                            </CheckBox>
+
+                        </Grid>
+
+                        <Grid Grid.Row="2" Height="30" Margin="0 5 10 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="280"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"  >Địa chỉ(Address):</TextBlock>
+
+                            <Grid  Grid.Column="1" Margin="0 0 10 0" >
+                                <TextBox x:Name="txtCustomerAdress"  
+                                         Style="{StaticResource TextboxAutoComleted}"                                                               
+                                         Text="{Binding InvoiceCreate.b_address , UpdateSourceTrigger=PropertyChanged}"/>
+
+                            </Grid>
+
+                        </Grid>
+
+                        <Grid Grid.Row="3" Height="30" Margin="0 5 10 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="280"/>
+                                <ColumnDefinition Width="89.5"/>
+                                <ColumnDefinition Width="140.5"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,7,0,6">Hình thức thanh toán(Method of payment):</TextBlock>
+
+                            <ComboBox Grid.Column="1" Height="28" Foreground="Black" Margin="5,1,10,1"  ItemsSource="{Binding Path= PaymentLists}" SelectedItem="{Binding Path= spaymentMethod}" SelectedIndex="2" Grid.ColumnSpan="2">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path= name}" HorizontalAlignment="Left" Padding="10 5 0 0"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <TextBlock Grid.Column="3" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,7,0,6">Số tài khoản(Bank account):</TextBlock>
+
+                            <!--Bank Number-->
+                            <Grid  Grid.Column="4" Margin="5 0 10 0" >
+                                <TextBox x:Name="txtCustomerBankNumber" 
+                                         Style="{StaticResource TextboxAutoComleted}"                                                               
+                                         Text="{Binding InvoiceCreate.b_bank_number , UpdateSourceTrigger=PropertyChanged}"/>
+                            </Grid>
+
+
+                            <!--Bank Name-->
+                            <TextBlock Grid.Column="5" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,7,0,6">Ngân hàng(Bank name):</TextBlock>
+
+                            <Grid  Grid.Column="6" Margin="5 0 10 0" >
+                                <TextBox x:Name="txtCustomerBankName"  
+                                         Style="{StaticResource TextboxAutoComleted}"                                                               
+                                         Text="{Binding InvoiceCreate.b_bank_name , UpdateSourceTrigger=PropertyChanged}"/>
+                            </Grid>
+
+                        </Grid>
+                    </Grid>
+
+                    <!-- Layout list product -->
+                    <Grid Grid.Row="2">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Disabled" Background="White" Margin="0 0 0 3">
+                            <ListView x:Name="A" ItemsSource="{Binding ProductList, Mode=TwoWay}" 
+                                      SelectedItem="{Binding ProductItemSeleced}" SelectionMode="Single"       
+                                      KeyboardNavigation.TabNavigation="Continue">
+                                <!--ListView Style-->
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Setter Property="IsTabStop" Value="False" />
+                                        <Setter Property="Height" Value="36" />
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                <Setter Property="IsSelected" Value="True" />
+
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+
+                                <!--ListView Content-->
+                                <ListView.View>
+                                    <GridView >
+                                        <GridViewColumn DisplayMemberBinding="{Binding Stt}"  Header="Stt" Width="50" />
+                     
+                                        <GridViewColumn  Header="" Width="50" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+            
+                                        <GridViewColumn  Header="Mã hàng hóa"  Width="150"  >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  Width="100" >
+                                                        <TextBox x:Name="txtProductCode"  Style="{StaticResource TextboxListView}"  Margin="5 0 0 0"  Padding="5 0 0 0"
+                                                                  Text="{Binding ItemCode,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+                                                        <toolkit:AutoCompleteBox  IsTextCompletionEnabled="False" FilterMode="Contains"
+                                                            ItemsSource="{Binding Path= DataProductList, Source={StaticResource InvoiceCreateVM}}"                                                            
+                                                            SelectedItem="{Binding ProductSellected ,Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"
+                                                            ValueMemberPath="item_code" >
+                                                            <toolkit:AutoCompleteBox.Style>
+                                                                <Style TargetType="toolkit:AutoCompleteBox">
+                                                                    <Setter Property="Text" Value="{Binding ItemCode}" />
+                                                                    <Setter Property="Text" Value="{Binding ElementName=txtProductCode, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                    <Setter Property="Padding" Value="5 0 0 0"/>
+                                                                    <Setter Property="Margin" Value="5 0 0 0"/>
+                                                                    <Setter Property="Background" Value="White"/>
+                                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                </Style>
+                                                            </toolkit:AutoCompleteBox.Style>
+                                                            <toolkit:AutoCompleteBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Label Content="{Binding item_code}"  Width="200" Height="25"/>
+                                                                </DataTemplate>
+                                                            </toolkit:AutoCompleteBox.ItemTemplate>
+                                                        </toolkit:AutoCompleteBox>
+
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn  Width="250"  Header="Tên hàng hóa, dịch vụ" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  HorizontalAlignment="Stretch" MinWidth="200" >
+                                                        <TextBox x:Name="txtProductName"  Style="{StaticResource TextboxListView}"  Margin="5 0 0 0"  Padding="5 0 0 0"
+                                                                 Text="{Binding Name , UpdateSourceTrigger=PropertyChanged}" />
+
+                                                        <toolkit:AutoCompleteBox 
+                                                            ItemsSource="{Binding Path= DataProductList, Source={StaticResource InvoiceCreateVM}}"                                                            
+                                                            SelectedItem="{Binding ProductSellected ,Mode=OneWayToSource, UpdateSourceTrigger=LostFocus}"
+                                                            ValueMemberPath="item_name" 
+                                                            IsTextCompletionEnabled="False" FilterMode="Contains">
+                                                            <toolkit:AutoCompleteBox.Style>
+                                                                <Style TargetType="toolkit:AutoCompleteBox">
+                                                                    <Setter Property="Text" Value="{Binding ElementName=txtProductName, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                    <Setter Property="Padding" Value="5 0 0 0"/>
+                                                                    <Setter Property="Margin" Value="5 0 0 0"/>
+                                                                    <Setter Property="Background" Value="White"/>
+                                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                                                </Style>
+                                                            </toolkit:AutoCompleteBox.Style>
+                                                            
+                                                            <toolkit:AutoCompleteBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Label Content="{Binding item_name}"  Width="200" Height="25"/>
+                                                                </DataTemplate>
+                                                            </toolkit:AutoCompleteBox.ItemTemplate>
+                                                        </toolkit:AutoCompleteBox>
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn  Width="120"  Header="Đơn vị tính" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  Width="80" >
+                                                      
+                                                        <TextBox x:Name="txtProductUnitName"  Style="{StaticResource TextboxListView}"  Margin="5 0 0 0"  Padding="5 0 0 0"                                                                
+                                                                 Text="{Binding UnitName , UpdateSourceTrigger=PropertyChanged}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn  Header="Số lượng" Width="100" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  Width="100" >
+                                                        <TextBox  Style="{StaticResource TextboxListView}"                                                                   
+                                                                  Text="{Binding Quantity, Mode=TwoWay,Converter={StaticResource doubleConverterQuantity}}"  />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn  Header="Đơn giá" Width="150" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  Width="150" >
+                                                        <TextBox x:Name="txtProductUnitPrice"  Style="{StaticResource TextboxListView}"  Margin="5 0 0 0"  Padding="5 0 0 0"
+                                                                  Text="{Binding UnitPrice ,Mode=TwoWay, Converter={StaticResource doubleConverter}}"
+                                                                  IsReadOnly="{Binding IsReverseCal, Mode=TwoWay, Converter={StaticResource IsEnableConverter},UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn  Header="Thành tiền" Width="150">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  Width="150" >
+                                                        <TextBox  Style="{StaticResource TextboxListView}"  IsReadOnly="{Binding TotalAmountCheck}"
+                                                                  Text="{Binding SubTotal,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                                    Converter={StaticResource doubleConverter}}" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn  Header="%VAT" Width="150" >
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  Width="150" >
+                                                        <ComboBox Grid.Column="1" Height="22" Margin="5 0 10 0" Foreground="Black" BorderBrush="Transparent" BorderThickness="0"
+                                                                  ItemsSource="{Binding Path= TaxCodeList, Source={StaticResource InvoiceCreateVM}}"
+                                                                  SelectedItem="{Binding VatPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TaxConverter} }"
+                                                                  IsEnabled="{Binding IsTaxEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ComboBoxConverter}}"
+                                                                  SelectedIndex="{Binding IndexTax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ComboBoxIndexConverter}}"
+
+                                                                  />
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn  Header="Tiền thuế" Width="150">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  Width="150" >
+                                                        <TextBox  Style="{StaticResource TextboxListView}" IsReadOnly="True"
+                                                                  Text="{Binding  VatAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                                    Converter={StaticResource doubleConverter}}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="Tổng tiền" Width="150">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid  Width="150" >
+                                                        <TextBox  Style="{StaticResource TextboxListView}" 
+                                                                  Text="{Binding  TotalAmount, Mode=TwoWay,  Converter={StaticResource doubleConverter}}"
+                                                                  IsReadOnly="{Binding IsReverseCal, Mode=TwoWay, Converter={StaticResource IsEnableNagativeConverter},UpdateSourceTrigger=PropertyChanged}"/>
+                                                        
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
+                    </Grid>
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="440"/>
+                            <ColumnDefinition Width="300"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0" Margin="0 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+
+                                <RowDefinition Height="80"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Margin="10 5 0 5" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button  Grid.Column="0" Style="{StaticResource MaterialDesignFloatingActionButton}" ToolTip="MaterialDesignFloatingActionButton" Height="30" Width="30"
+                                         Command="{Binding RefreshProductCommand}">
+                                    <materialDesign:PackIcon Kind="Refresh" />
+                                </Button>
+
+                                <Button  Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionButton}" ToolTip="MaterialDesignFloatingActionButton" Height="30" Width="30"
+                                         Command="{Binding RemoveProductCommand}">
+                                    <materialDesign:PackIcon Kind="Minus" />
+                                </Button>
+
+                                <Button  Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionButton}" ToolTip="MaterialDesignFloatingActionButton" Height="30" Width="30"
+                                         Command="{Binding AddProductCommand}">
+                                    <materialDesign:PackIcon Kind="Add" />
+                                </Button>
+
+                                <CheckBox Grid.Column="5" Margin="0 6 0 6" 
+                                          VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                          IsChecked="{Binding IsReverseCaculator}">
+                                    Tính ngược
+                                </CheckBox>
+                                                        
+
+                            </Grid>
+
+                            <Grid Grid.Row="1" Margin="0 15 0 0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="70"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Đơn vị tiền tệ:</TextBlock>
+
+
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding Path= MoneyUnits}" SelectedItem="{Binding Path=InvoiceCreate.currency_code}"
+                                          Height="28" Margin="5 0 0 0" Foreground="Black" SelectedIndex="0"  >
+                                    <!--<ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Name}" HorizontalAlignment="Left" Padding="10 0 0 0"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>-->
+                                </ComboBox>
+                                <TextBlock Grid.Column="2" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Tỷ giá:</TextBlock>
+                                <TextBox  Grid.Column="3"
+                                    Text="{Binding InvoiceCreate.exchange_rate}"
+                                    Height="28" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right" VerticalAlignment="Top">
+                                </TextBox>
+
+                            </Grid>
+
+                            <!--<Grid Grid.Row="2" Margin="0 15 0 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="70"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" >CK theo đơn hàng:</TextBlock>
+                                <TextBox 
+                                    Text="{Binding invoiceSumExtend.DiscountTotal,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource doubleConverter}}"
+                                    Grid.Column="1" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right"  >
+
+                                </TextBox>
+
+                                <TextBox 
+                                    Text="{Binding invoiceSumExtend.DiscountPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource PerCentFortmatConverterDiscount}}"
+                                    Grid.Column="2" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right" Grid.ColumnSpan="2">
+                                </TextBox>
+
+
+                                
+
+                            </Grid>-->
+
+
+                            <TextBlock Grid.Row="3" 
+                                       Margin="15 10 0 0" FontSize="13" VerticalAlignment="Bottom">Số tiền in bằng chữ:</TextBlock>
+
+                            <TextBox Grid.Row="4"
+                                    Text="{Binding InvoiceCreate.in_word}"
+                                    Background="White" BorderBrush="Black" BorderThickness="1" Margin="15 10 0 10" Padding="5 0 0 0" Foreground="Red" VerticalContentAlignment="Top" TextWrapping="Wrap"></TextBox>
+
+
+
+
+                        </Grid>
+
+                        <Grid Grid.Column="1" Margin="0 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+
+
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Thuế suất:</TextBlock>
+                                <ComboBox Grid.Column="1"  Height="28" Margin="5 0 0 0" Foreground="Black" 
+                                          ItemsSource="{Binding Path= TaxCodeList}" 
+                                          SelectedItem="{Binding Path=InvoiceCreate.vat_rate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TaxConverter}}"
+                                          IsEnabled="{Binding IsMoreTax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IsEnableNagativeConverter}}"
+                                          SelectedIndex="{Binding IndexTotalComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ComboBoxIndexConverter}}"
+>
+
+                                </ComboBox>
+
+
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="160"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Phí dịch vụ:</TextBlock>
+                                <!--<TextBox 
+                                    Text="{Binding InvoiceCreate.total_service_charge}"
+                                    Grid.Column="2" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right" >
+                                    
+                                </TextBox>-->
+                                <TextBox 
+                                    Text="{Binding invoiceSumExtend.ServiceChargePercent,Mode=TwoWay, Converter={StaticResource PerCentFortmatConverterServiceCharge}}"
+                                    Grid.Column="1" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right" >
+                                </TextBox>
+
+
+                                <TextBox 
+                                    Text="{Binding invoiceSumExtend.ServiceChargeTotal,Mode=TwoWay,  Converter={StaticResource doubleConverter}}"
+                                    Grid.Column="2" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right" >
+
+                                </TextBox>
+
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="160"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">CK theo đơn hàng:</TextBlock>
+
+                                <TextBox 
+                                    Text="{Binding invoiceSumExtend.DiscountPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource PerCentFortmatConverterDiscount}}"
+                                    Grid.Column="1" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right" >
+                                </TextBox>
+
+
+                                <TextBox 
+                                    Text="{Binding invoiceSumExtend.DiscountTotal,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource doubleConverter}}"
+                                    Grid.Column="2" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right" >
+
+                                </TextBox>
+
+                            </Grid>
+
+
+                            <!--<Grid Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Thuế suất:</TextBlock>
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding Path= TaxCodeList}" SelectedItem="{Binding Path=staxcode}" SelectedIndex="0"
+                                          Height="28" Margin="5 0 0 0" Foreground="Black">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=name}" HorizontalAlignment="Left" Padding="10 0 0 0"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </Grid>-->
+
+                            <Grid Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Tổng tiền hàng:</TextBlock>
+                                <TextBox 
+
+                                    Text="{Binding invoiceSum.SubTotal,
+                                           Converter={StaticResource doubleConverter1}}" IsReadOnly="True"
+                                    Grid.Column="2" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right"></TextBox>
+
+                            </Grid>
+
+                            <Grid Grid.Row="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center">Thuế GTGT:</TextBlock>
+                                <TextBox 
+                                    Text="{Binding invoiceSum.VatTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                           Converter={StaticResource doubleConverter1}}" IsReadOnly="True"
+                                    Grid.Column="2" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5 0 0 0" HorizontalContentAlignment="Right"></TextBox>
+
+                            </Grid>
+
+                            <Grid Grid.Row="5" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="69*"/>
+                                    <ColumnDefinition Width="11*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,13,0,12">Tổng tiền:</TextBlock>
+                                <TextBox x:Name="TbxTotalAmount" 
+                                    Text="{Binding invoiceSum.TotalAmount, Mode=TwoWay,
+                                           Converter={StaticResource doubleConverter1}}"
+                                    Grid.Column="1" Height="30" BorderBrush="Black" BorderThickness="1"  Background="White" Margin="5,6,0,6" HorizontalContentAlignment="Right" Grid.ColumnSpan="2" IsReadOnly="True"></TextBox>
+
+                            </Grid>
+
+
+                        </Grid>
+
+                        <Grid Grid.Column="2" Margin="0 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+                            <Button 
+                                Command="{Binding SignCommand}"
+                                 CommandParameter="{Binding ElementName=invoiceCreateWindow}"
+                                Grid.Row="0" Height="38" Margin="5 10 0 0" Background="DarkBlue" Foreground="White" >Ký, phát hành HĐ</Button>
+                            <Button
+                                Command="{Binding SaveCommand}"
+                                Grid.Row="1" Height="38" Margin="5 10 0 0" Background="Transparent" Foreground="Blue">Lưu(Alt+L)</Button>
+                            <Button 
+                                 x:Name="KeepButton" Command="{Binding KeepCommand}" 
+                                 CommandParameter="{Binding ElementName=invoiceCreateWindow}"
+                                 Grid.Row="2" Height="38" Margin="5 10 0 0" Background="Transparent" Foreground="Blue" >Giữ hóa đơn</Button>
+
+                            <Button Grid.Row="3" Height="38" Margin="5 10 0 0" Background="Transparent" Foreground="Blue" 
+                                    Command="{Binding ViewCommand}">Xem hóa đơn</Button>
+                            <Button 
+                                 Command="{Binding SendCommand}"
+                                Grid.Row="4" Height="38" Margin="5 10 0 0" Background="Transparent" Foreground="Blue" >Gửi hóa đơn nháp</Button>
+
+                            <Button 
+                                Command="{Binding CloseCommand}"
+                                  CommandParameter="{Binding ElementName=invoiceCreateWindow}"
+                                Grid.Row="5" Height="38" Margin="5 15 0 0" Background="DarkGray" Foreground="Black" >Đóng</Button>
+
+
+                        </Grid>
+
+
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="5" VerticalAlignment="Stretch" Background="DarkGray">
+            <TextBlock 
+                VerticalAlignment="Center"
+                Margin="10 0 0 0"
+                Text="{Binding Path= StatusBarString}"/>
+        </Grid>
+    </Grid>
+</Window>

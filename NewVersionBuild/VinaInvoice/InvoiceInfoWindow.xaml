@@ -1,0 +1,386 @@
+﻿<Window x:Class="VinaInvoice.InvoiceInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VinaInvoice"
+        mc:Ignorable="d"
+        DataContext="{StaticResource InvoiceInfoVM}"
+        
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        
+        xmlns:uc="clr-namespace:VinaInvoice.UserControlARI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        BorderBrush="DarkBlue"
+        BorderThickness="0.75"
+        
+        Name="invoiceInfoWindow"
+        Title="Thông tin hóa đơn" 
+        Height="500" Width="780">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <!-- Layout Control bar -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="303*"/>
+                <ColumnDefinition Width="63*"/>
+                <ColumnDefinition Width="131*"/>
+            </Grid.ColumnDefinitions>
+            <uc:ControlBarUC Tag="{Binding Title, ElementName= invoiceInfoWindow}" Grid.ColumnSpan="3"></uc:ControlBarUC>
+        </Grid>
+
+        <!-- Layout Lable -->
+        <Grid Grid.Row="1" Background="AliceBlue">
+            <Grid  Margin="15 10 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Thông tin hóa đơn" FontSize="20" FontWeight="Medium"></TextBlock>
+                <TextBlock Grid.Row="1" Text="Nghiệp vụ xử lý hóa đơn điện tử đã phát hành" FontSize="12" FontWeight="Normal"></TextBlock>
+            </Grid>
+        </Grid>
+
+        <!--Layout Content-->
+        <Grid Grid.Row="2" Margin="0 20 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="20 0 10 0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Tên Công Ty</TextBlock>
+
+                    <TextBox  
+                        Text="{Binding Invoice.b_company}"
+                        Grid.Column="1"   Background="White" Margin="10 5 0 5" Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="20 0 10 0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="159*"/>
+                        <ColumnDefinition Width="19*"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="178*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" Margin="0,10" >Tên khách hàng:</TextBlock>
+                    <TextBox  
+                        Text="{Binding Invoice.b_name}"
+                        Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" BorderBrush="DarkGray" BorderThickness="1" Grid.ColumnSpan="2"></TextBox>
+                    <TextBlock  Grid.Column="3" VerticalAlignment="Center" TextAlignment="Right" Margin="0,10">MS thuế:</TextBlock>
+                    <TextBox 
+                        Text="{Binding Invoice.b_tax_code}"
+                        Grid.Column="4" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="20 0 10 0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Địa chỉ:</TextBlock>
+
+                    <TextBox  
+                        Text="{Binding Invoice.b_address}"
+                        Grid.Column="1"   Background="White" Margin="10 5 0 5" Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="20 0 10 10" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock  Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Tài khoản:</TextBlock>
+                    <TextBox  
+                        Text="{Binding Invoice.b_bank_number}"
+                        Grid.Column="1" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+                    <TextBlock  Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right">Email:</TextBlock>
+                    <TextBox  
+                         Text="{Binding Invoice.b_email}"
+                        Grid.Column="3" Background="White" Margin="10 5 0 5" Padding="2 0 0 0" BorderBrush="DarkGray" BorderThickness="1" materialDesign:HintAssist.Hint="email@email.com"></TextBox>
+                </Grid>
+
+                <Grid Grid.Row="4">
+                    <materialDesign:Card Background="Transparent"  BorderBrush="Aqua" Grid.Column="0">
+                        <Border BorderThickness="1" BorderBrush="DarkGray" ClipToBounds="True" Margin="10 0 5 0">
+                            <Grid Margin="10 0 5 10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Margin="0 0 0 5" Grid.ColumnSpan="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Nghiệp vụ hóa đơn:</TextBlock>
+
+                                    <!--<TextBox   Grid.Column="1"   Background="White"  Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>-->
+                                    <ComboBox Grid.Column="1" Margin="10 5 0 5"  Height="28" Foreground="Black"  ItemsSource="{Binding Path= MajorLists}" SelectedItem="{Binding Path=SmajorList}" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=Name}"  Width="400" HorizontalAlignment="Left" Padding="10 5 0 0" Foreground="Black"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Grid>
+
+                                <Grid Grid.Row="1" Margin="0 0 0 5" Grid.ColumnSpan="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="55"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >File scan:</TextBlock>
+
+                                    <TextBox  x:Name="TbxFile"
+                                        Text="{Binding FilesCanPath}"
+                                        Grid.Column="1"  Margin="10 0 0 0" Background="White"  Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                                    <Button 
+                                        Command="{Binding GetScanFileCommand}"
+                                        Grid.Column="2" Margin="10 0 0 0" Height="25" VerticalAlignment="Center" Foreground="Black" Style="{StaticResource MaterialDesignRaisedLightButton}">...</Button>
+                                </Grid>
+
+                                <Grid Grid.Row="2" Margin="0 0 0 5" Grid.ColumnSpan="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Left" >Lý do điều chỉnh, thay thế, hủy</TextBlock>
+
+
+                                    <TextBlock Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right" >Biên bản số:</TextBlock>
+
+                                    <TextBox 
+                                        Text="{Binding Invoice.document_no}"
+                                        Grid.Column="3"  Margin="10 0 0 0" Background="White"  Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                                </Grid>
+
+                                <Grid Grid.Row="3" Margin="0 0 0 5" Grid.ColumnSpan="2">
+
+                                    <TextBox  
+                                        Text="{Binding Invoice.reason_content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Grid.Column="3"  Margin="0 5 0 0"  Background="White" Height="60" Padding="2 0 0 0" VerticalContentAlignment="Top"  BorderBrush="DarkGray" BorderThickness="1" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
+
+                                </Grid>
+
+
+                            </Grid>
+                        </Border>
+                    </materialDesign:Card>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="20 0 10 0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" >Mẫu số:</TextBlock>
+
+                    <TextBox 
+                         Text="{Binding Invoice.invoice_form_name}"
+                        Grid.Column="1"   Background="White" Margin="10 5 0 5" Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="20 0 10 0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" Foreground="Green" >Ký hiệu:</TextBlock>
+
+                    <TextBox  
+                         Text="{Binding Invoice.invoice_serial_name}"
+                        Grid.Column="1"  Foreground="Green" Background="White" Margin="10 5 0 5" Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="10 0 10 0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" Foreground="Red" >Số hóa đơn:</TextBlock>
+
+                    <TextBox 
+                         Text="{Binding Invoice.invoice_number}"
+                        Grid.Column="1"  Foreground="Red" Background="White" Margin="10 5 0 5" Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                </Grid>
+
+                <Grid Grid.Row="3" Margin="10 0 10 10" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right"  >Ngày xuất:</TextBlock>
+
+                    <TextBox 
+                         Text="{Binding SignDay}"
+                        Grid.Column="1"  Foreground="Red" Background="White" Margin="10 5 0 5" Padding="2 0 0 0"  BorderBrush="DarkGray" BorderThickness="1"></TextBox>
+
+                </Grid>
+
+
+
+
+
+                <Grid Grid.Row="4">
+                    <materialDesign:Card Background="Transparent"  BorderBrush="Aqua" Grid.Column="0">
+                        <Border BorderThickness="1" BorderBrush="DarkGray" ClipToBounds="True" Margin="10 0 10 0">
+                            <Grid Margin="10 0 5 10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"></RowDefinition>
+                                    <RowDefinition Height="35"></RowDefinition>
+                                    <RowDefinition Height="35"></RowDefinition>
+                                    <RowDefinition Height="35"></RowDefinition>
+                                    <RowDefinition Height="35"></RowDefinition>
+
+                                </Grid.RowDefinitions>
+                                <Grid  Grid.Row="0">
+                                    
+                                    <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding SendEmailCommand}">
+                                        <Button.Content>
+                                        <TextBlock   VerticalAlignment="Center" Foreground="Blue" HorizontalAlignment="Center" TextDecorations="Underline"  >Gửi Email</TextBlock>
+                                            </Button.Content>
+                                    </Button>
+                                </Grid>
+                                <Grid  Grid.Row="1">
+                                   
+                                    <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding ViewHTMLCommand}">
+                                        <Button.Content>
+                                            <TextBlock   VerticalAlignment="Center" Foreground="Blue" HorizontalAlignment="Center" TextDecorations="Underline"  >Xem hóa đơn(HTML)</TextBlock>
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+
+                                <Grid  Grid.Row="2">
+                                  
+                                    <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding ViewXMLCommand}">
+                                        <Button.Content>
+                                            <TextBlock   VerticalAlignment="Center" Foreground="Blue" HorizontalAlignment="Center" TextDecorations="Underline"  >Xem hóa đơn(XML)</TextBlock>
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+
+
+                                <Grid  Grid.Row="3">
+                                    <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding ViewPDFCommand}">
+                                        <Button.Content>
+                                            <TextBlock   VerticalAlignment="Center" Foreground="Blue" HorizontalAlignment="Center" TextDecorations="Underline"  >Xem hóa đơn(PDF)</TextBlock>
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+
+                                <Grid  Grid.Row="4">
+                                    <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding ViewDocumentCommand}"
+                                            IsEnabled="{Binding Path=ViewDocumentButtonEnable,  Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button.Content>
+                                            <TextBlock   VerticalAlignment="Center" Foreground="Blue" HorizontalAlignment="Center" TextDecorations="Underline"  >Xem biên bản</TextBlock>
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </materialDesign:Card>
+                </Grid>
+            </Grid>
+
+
+        </Grid>
+
+        <!-- Layout Button -->
+        <Grid Grid.Row="3" Margin="0 5 20 12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="145"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="ResignedButton" Command="{Binding ResigedCommand}" 
+                Grid.Column="0" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="20 0 0 0" Width="120" ToolTip="Resource name: MaterialDesignRaisedLightButton" >
+                Ký lại
+            </Button>
+
+            <Button Command="{Binding ExecuteCommand}"
+                     CommandParameter="{Binding ElementName=invoiceInfoWindow}"
+                Grid.Column="2" Style="{StaticResource MaterialDesignRaisedDarkButton}"  Width="120" ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Left">
+                Thực hiện
+            </Button>
+            <Button 
+                Command="{Binding CloseCommand}"
+                CommandParameter="{Binding ElementName=invoiceInfoWindow}"
+                Grid.Column="3" Style="{StaticResource MaterialDesignRaisedLightButton}"  Width="120" 
+                                        ToolTip="Resource name: MaterialDesignRaisedLightButton" HorizontalAlignment="Right">
+                Đóng
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
